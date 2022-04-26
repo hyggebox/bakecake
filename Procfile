@@ -1,0 +1,1 @@
+web:  foodplan.wsgi
