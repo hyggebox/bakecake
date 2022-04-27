@@ -50,9 +50,10 @@
 						<img src="{% static 'bakecake/media/user.svg' %}" alt="">
 						<span class="position-absolute translate-middle badge rounded-pill cake__bg_pink fs_8">1</span>
 					</a>
-					<a class="nav-link fw-lighter cake_grey fs_12" href="#">
-						Ирина
-					</a>
+            <span class="nav-link fw-lighter cake_grey fs_12" >
+            {{ user.username }}
+					  </span>
+            <a class="nav-link fw-lighter cake_blue fs_12" href="{% url 'logout' %}">Выйти</a>
 				</li>
 			</ul>
 		</div>
@@ -111,7 +112,7 @@
 			<p class="cake_grey">Вы можете добавить торт из <a href="./index.html#step2" class="text-decoration-none cake_pink">Каталога</a> или <a href="./index.html#step3" class="text-decoration-none cake_pink">Создать свой</a>.</p>
 			<span class="cake_grey">Есть вопросы?</span>
 			<span class="cake_grey">Воспользуйтесь нашим <a href="https://vk.com/devmanorg" class="text-decoration-none cake_pink">чат-ботом</a>.</span>
-			<button class="btn text-white rounded-pill align-self-end px-5 mt-3 shadow-none cake__button cake__bg_pink">Выйти</button>
+			<a class="btn text-white rounded-pill align-self-end px-5 mt-3 shadow-none cake__button cake__bg_pink" href="{% url 'logout' %}">Выйти</a>
 		</div>
 	</div>
 </div>
