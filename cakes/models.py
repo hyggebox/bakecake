@@ -197,11 +197,6 @@ class Cake(models.Model):
         verbose_name='Комментарий',
         blank=True
     )
-    base_price = models.DecimalField(
-        verbose_name='Базовая стоимость',
-        max_digits=15,
-        decimal_places=2
-    )
 
     class Meta:
         verbose_name = 'Торт'
@@ -270,6 +265,11 @@ class Order(models.Model):
         blank=True,
         null=True,
         db_index=True
+    )
+    price = models.DecimalField(
+        verbose_name='Стоимость',
+        max_digits=15,
+        decimal_places=2
     )
 
     class Meta:
