@@ -1,5 +1,6 @@
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
+from phonenumber_field.modelfields import PhoneNumberField
 
 
 class Discounts(models.Model):
@@ -210,4 +211,25 @@ class Cake(models.Model):
         return f'Торт {self.level_count} уровневый - форма {self.shape}'
 
 
+class Customer(models.Model):
+    name = models.CharField(
+        max_length=150,
+        verbose_name='Имя заказчика',
+    )
+    phonenumber = PhoneNumberField(
+        verbose_name='Телефонный номер'
+    )
+    email = models.EmailField(
+        verbose_name='Email заказчика'
+    )
+    address = models.CharField(
+        max_length=150,
+        verbose_name='Адрес заказчика'
+    )
 
+    class Meta:
+        verbose_name = 'Клиент'
+        verbose_name_plural = 'Клиенты'
+
+    def __str__(self):
+        return f'{self.name} -- {self.phonenumber}'
