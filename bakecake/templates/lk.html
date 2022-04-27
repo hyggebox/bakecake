@@ -26,16 +26,16 @@
 		<div class="collapse navbar-collapse justify-content-end" id="navbar">
 			<ul class="navbar-nav">
 				<li class="nav-item me-5">
-					<a class="nav-link fw-lighter cake_blue" href="./index.html#step3">Создать торт</a>
+					<a class="nav-link fw-lighter cake_blue" href="{% url 'render_index_page' %}#step3">Создать торт</a>
 				</li>
 				<li class="nav-item me-5">
-					<a class="nav-link fw-lighter cake_blue" href="./index.html#step2">Каталог</a>
+					<a class="nav-link fw-lighter cake_blue" href="{% url 'render_index_page' %}#step2">Каталог</a>
 				</li>
+<!--				<li class="nav-item me-5">-->
+<!--					<a class="nav-link fw-lighter cake_blue" href="{% url 'render_index_page' %}#step4">Оплата и доставка</a>-->
+<!--				</li>-->
 				<li class="nav-item me-5">
-					<a class="nav-link fw-lighter cake_blue" href="./index.html#step4">Оплата и доставка</a>
-				</li>
-				<li class="nav-item me-5">
-					<a class="nav-link fw-lighter cake_blue" href="./index.html#Contacts">Контакты</a>
+					<a class="nav-link fw-lighter cake_blue" href="{% url 'render_index_page' %}#Contacts">Контакты</a>
 				</li>
 				<li class="nav-item d-block d-xl-flex flex-column align-items-end me-5">
 					<small class="fw-lighter text-decoration-none fs_12 cake_blue">8 (495) 000-00-00</small>
@@ -50,9 +50,10 @@
 						<img src="{% static 'bakecake/media/user.svg' %}" alt="">
 						<span class="position-absolute translate-middle badge rounded-pill cake__bg_pink fs_8">1</span>
 					</a>
-					<a class="nav-link fw-lighter cake_grey fs_12" href="#">
-						Ирина
-					</a>
+            <span class="nav-link fw-lighter cake_grey fs_12" >
+            {{ user.username }}
+					  </span>
+            <a class="nav-link fw-lighter cake_blue fs_12" href="{% url 'logout' %}">Выйти</a>
 				</li>
 			</ul>
 		</div>
@@ -92,16 +93,13 @@
 					</ul>
 					<ul class="list-group">
 						<li class="list-group-item border-0 py-61 position-relative">
-							<v-field v-model="Name" type="text" name="name_format" id="name" :readonly="!Edit" class="form-control my-2 i cake__textinput"></v-field>
-							<error-message name="name_format" class="position-absolute bottom-0 cake_pink fs_12"></error-message>
+              <p class="form-control my-2 i cake__textinput">{{ user.username }}</p>
 						</li>
 						<li class="list-group-item border-0 py-61 position-relative">
-							<v-field v-model="Phone" type="text" name="phone_format" id="phone" :readonly="!Edit" class="form-control my-2 cake__textinput"></v-field>
-							<error-message name="phone_format" class="position-absolute bottom-0 cake_pink fs_12"></error-message>
+              <p class="form-control my-2 i cake__textinput">{{ user.username }}</p>
 						</li>
 						<li class="list-group-item border-0 py-61 position-relative">
-							<v-field v-model="Email" type="text" name="email_format" id="email" :readonly="!Edit" class="form-control my-2 cake__textinput"></v-field>
-							<error-message name="email_format" class="position-absolute bottom-0 cake_pink fs_12"></error-message>
+              <p class="form-control my-2 i cake__textinput">{{ user.email }}</p>
 						</li>
 					</ul>
 				</div>
@@ -111,7 +109,7 @@
 			<p class="cake_grey">Вы можете добавить торт из <a href="./index.html#step2" class="text-decoration-none cake_pink">Каталога</a> или <a href="./index.html#step3" class="text-decoration-none cake_pink">Создать свой</a>.</p>
 			<span class="cake_grey">Есть вопросы?</span>
 			<span class="cake_grey">Воспользуйтесь нашим <a href="https://vk.com/devmanorg" class="text-decoration-none cake_pink">чат-ботом</a>.</span>
-			<button class="btn text-white rounded-pill align-self-end px-5 mt-3 shadow-none cake__button cake__bg_pink">Выйти</button>
+			<a class="btn text-white rounded-pill align-self-end px-5 mt-3 shadow-none cake__button cake__bg_pink" href="{% url 'logout' %}">Выйти</a>
 		</div>
 	</div>
 </div>
