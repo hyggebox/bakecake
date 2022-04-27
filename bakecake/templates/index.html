@@ -12,6 +12,7 @@
 	<!-- Для продакшина: -->
 	<!-- <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script> -->
 	<script src="https://unpkg.com/vee-validate"></script>
+	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 	<title>Тортики</title>
 </head>
 <body>
@@ -185,7 +186,9 @@
 					<error-message name="form" class="from__alert"></error-message>
 					<error-message name="topping" class="from__alert"></error-message>
 				</span>
+						{% verbatim %}
 						<span class="z-index-1 fs_40 cake_pink text-end mt-5" id="cost">{{ Cost }}₽</span>
+						{% endverbatim %}
 					</div>
 					<div class="d-flex align-items-center flex-wrap mb-3">
 						<span class="me-3 fs_40 cake_blue">Количество уровней</span>
@@ -195,6 +198,8 @@
 						<label for="num2" class="mx-2 px-3 py-1 cake_grey cake__label">2</label>
 						<v-field v-model="Levels" type="radio" name="lvls" id="num3" value="3" class="d-none cake__input"></v-field>
 						<label for="num3" class="mx-2 px-3 py-1 cake_grey cake__label">3</label>
+						<v-field v-model="Levels" type="radio" name="lvls" id="num4" value="4" class="d-none cake__input"></v-field>
+						<label for="num4" class="mx-2 px-3 py-1 cake_grey cake__label">4</label>
 					</div>
 
 					<div class="d-flex align-items-center flex-wrap mb-3">
@@ -344,7 +349,9 @@
 							</div>
 							<div class="col-12 col-md-6 d-flex flex-column align-items-center align-items-md-end mt-3 mt-md-0">
 								<div class="d-flex">
+									{% verbatim %}
 									<span class="cake_pink fs_40 fw-bold me-2">Итого: {{ Cost }}₽</span>
+									{% endverbatim %}
 								</div>
 								<button type="submit" class="btn btn_hover text-white rounded-pill mt-3 px-5 shadow-none cake__button cake__bg_pink">К оплате</button>
 							</div>

@@ -88,14 +88,16 @@ Vue.createApp({
                 }
             },
             DATA: {
-                Levels: ['не выбрано', '1', '2', '3'],
+                // Levels: ['не выбрано', '1', '2', '3', '4'],
+                Levels: [],
                 Forms: ['не выбрано', 'Круг', 'Квадрат', 'Прямоугольник'],
                 Toppings: ['не выбрано', 'Без', 'Белый соус', 'Карамельный', 'Кленовый', 'Черничный', 'Молочный шоколад', 'Клубничный'],
                 Berries: ['нет', 'Ежевика', 'Малина', 'Голубика', 'Клубника'],
                 Decors: [ 'нет', 'Фисташки', 'Безе', 'Фундук', 'Пекан', 'Маршмеллоу', 'Марципан']
             },
             Costs: {
-                Levels: [0, 400, 750, 1100],
+                Levels: [0, 400, 750, 1100, 15000],
+                // Levels: [],
                 Forms: [0, 600, 400, 1000],
                 Toppings: [0, 0, 200, 180, 200, 300, 350, 200],
                 Berries: [0, 400, 300, 450, 500],
@@ -154,5 +156,12 @@ Vue.createApp({
                 this.Costs.Toppings[this.Topping] + this.Costs.Berries[this.Berries] +
                 this.Costs.Decors[this.Decor] + W
         }
+    },
+    mounted() {
+        axios
+            .get('https://api.coindesk.com/v1/bpi/currentprice.json')
+            // .then(response => (this.DATA["Levels"] = ['не выбрано', '1', '2', '3', '4']));
+            .then(this.DATA["Levels"] = ['не выбрано', '1', '2', '3', '4'])
+            // .then(console.log('ready!'))
     }
 }).mount('#VueApp')
