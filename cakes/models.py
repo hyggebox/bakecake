@@ -212,9 +212,15 @@ class Cake(models.Model):
 
 
 class Customer(models.Model):
-    name = models.CharField(
-        max_length=150,
-        verbose_name='Имя заказчика',
+    firstname = models.CharField(
+        'Имя',
+        max_length=50,
+        null=False
+    )
+    lastname = models.CharField(
+        'Фамилия',
+        max_length=50,
+        null=False
     )
     phonenumber = PhoneNumberField(
         verbose_name='Телефонный номер'
@@ -232,4 +238,44 @@ class Customer(models.Model):
         verbose_name_plural = 'Клиенты'
 
     def __str__(self):
-        return f'{self.name} -- {self.phonenumber}'
+        return f'{self.firstname} {self.lastname}'
+
+
+class Order(models.Model):
+    customer = models.ForeignKey(
+        Customer,
+        verbose_name='Заказчик',
+        related_name='customers',
+        on_delete=models.CASCADE
+    )
+    cake = models.ForeignKey(
+        Cake,
+        verbose_name='Заказанный торт',
+        related_name='cakes',
+        on_delete=models.PROTECT,
+    )
+    registered_at = models.DateTimeField(
+        'Время регистрации заказа',
+        auto_now_add=True,
+        db_index=True
+    )
+    called_at = models.DateTimeField(
+        'Время звонка клиенту',
+        blank=True,
+        null=True,
+        db_index=True
+    )
+    delivered_at = models.DateTimeField(
+        'Время доставки заказа',
+        blank=True,
+        null=True,
+        db_index=True
+    )
+
+    class Meta:
+        verbose_name = 'Заказ'
+        verbose_name_plural = 'Заказы'
+        ordering = ['-registered_at']
+
+    def __str__(self):
+        return f'{self.customer}: {self.registered_at}'
