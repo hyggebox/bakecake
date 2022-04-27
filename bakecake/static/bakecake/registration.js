@@ -13,55 +13,55 @@ Vue.createApp({
                     }
                     return 'Поле не заполнено';
                 },
-                phone_format: (value) => {
-                    const regex = /^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$/
+                email_format: (value) => {
+                    const regex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i
                     if (!value) {
                         return true;
                     }
                     if ( !regex.test(value)) {
 
-                        return '⚠ Формат телефона нарушен';
+                        return '⚠ Формат email нарушен';
                     }
                     return true;
                 },
-                code_format: (value) => {
+                password_format: (value) => {
                     const regex = /^[a-zA-Z0-9]+$/
                     if (!value) {
                         return true;
                     }
                     if ( !regex.test(value)) {
 
-                        return '⚠ Формат кода нарушен';
+                        return '⚠ Формат пароля нарушен';
                     }
                     return true;
                 }
             },
-            Step: 'Number',
+            Step: 'Email',
             RegInput: '',
             EnteredNumber: ''
         }
     },
     methods: {
         RegSubmit() {
-            if (this.Step === 'Number') {
-                this.Step = 'Code'
+            if (this.Step === 'Email') {
+                this.Step = 'Password'
 
-                console.log('Введённый номер:', this.RegInput)
+                console.log('Введённый email:', this.RegInput)
                 this.EnteredNumber = this.RegInput
                 this.RegInput = ''
             }
             else {
                 this.Step = 'Finish'
-                console.log('Введённый код:', this.RegInput, 'Регистрация успешна')
+                console.log('Введённый пароль:', this.RegInput, 'Регистрация успешна')
                 this.RegInput = 'Регистрация успешна'
             }
         },
         ToRegStep1() {
-            this.Step = 'Number'
+            this.Step = 'Email'
             this.RegInput = this.EnteredNumber
         },
         Reset() {
-            this.Step = 'Number'
+            this.Step = 'Email'
             this.RegInput = ''
             EnteredNumber = ''
         }
