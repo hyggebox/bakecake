@@ -75,7 +75,7 @@
 					<v-form :validation-schema="RegSchema" class="modal-body position-relative d-flex flex-column align-items-center px-5 pb-4" @submit="RegSubmit">
 						<v-field v-if="RegInput !== 'Регистрация успешна'" v-model="RegInput" name="reg" type="text" id="reg" :placeholder="Step === `Email` ? `Введите ваш email` : `Введите пароль`" class="form-control cake__textinput"></v-field>
 						<v-field v-if="Step === 'Email'" v-model="RegInput" type="email" name="email_format" class="d-none"></v-field>
-						<v-field v-if="Step === 'Password'" v-model="RegInput" type="email" name="password_format" class="d-none"></v-field>
+						<v-field v-if="Step === 'Password'" v-model="RegInput" type="password" name="password_format" class="d-none"></v-field>
 						<button v-if="RegInput !== 'Регистрация успешна'" type="submit" class="btn text-white w-100 rounded-pill mt-3 py-2 shadow-none cake__button fs_12 cake__bg_pink">Отправить</button>
 						<span v-if="RegInput === 'Регистрация успешна'" class="cake_grey text-center">Регистрация успешна</span>
 						<small class="fs_12 cake_pink text-center position-absolute bottom-0"><error-message name="reg">
@@ -86,8 +86,8 @@
 							{% verbatim %}
 							{{Step === 'Email' ? 'Введите email' : 'Введите пароль'}}</error-message></small>
 							{% endverbatim %}
-						<error-message name="phone_format" class="fs_12 cake_pink text-center position-absolute bottom-0"></error-message>
-						<error-message name="code_format" class="fs_12 cake_pink text-center position-absolute bottom-0"></error-message>
+						<error-message name="email_format" class="fs_12 cake_pink text-center position-absolute bottom-0"></error-message>
+						<error-message name="password_format" class="fs_12 cake_pink text-center position-absolute bottom-0"></error-message>
 					</v-form>
 
 					<div class="modal-footer d-flex flex-column justify-content-between align-items-center text-center border-0 mx-5">
