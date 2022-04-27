@@ -93,16 +93,13 @@
 					</ul>
 					<ul class="list-group">
 						<li class="list-group-item border-0 py-61 position-relative">
-							<v-field v-model="Name" type="text" name="name_format" id="name" :readonly="!Edit" class="form-control my-2 i cake__textinput"></v-field>
-							<error-message name="name_format" class="position-absolute bottom-0 cake_pink fs_12"></error-message>
+              <p class="form-control my-2 i cake__textinput">{{ user.username }}</p>
 						</li>
 						<li class="list-group-item border-0 py-61 position-relative">
-							<v-field v-model="Phone" type="text" name="phone_format" id="phone" :readonly="!Edit" class="form-control my-2 cake__textinput"></v-field>
-							<error-message name="phone_format" class="position-absolute bottom-0 cake_pink fs_12"></error-message>
+              <p class="form-control my-2 i cake__textinput">{{ user.username }}</p>
 						</li>
 						<li class="list-group-item border-0 py-61 position-relative">
-							<v-field v-model="Email" type="text" name="email_format" id="email" :readonly="!Edit" class="form-control my-2 cake__textinput"></v-field>
-							<error-message name="email_format" class="position-absolute bottom-0 cake_pink fs_12"></error-message>
+              <p class="form-control my-2 i cake__textinput">{{ user.email }}</p>
 						</li>
 					</ul>
 				</div>
