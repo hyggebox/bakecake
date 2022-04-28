@@ -147,6 +147,24 @@ Vue.createApp({
                 Time: this.Time,
                 DelivComments: this.DelivComments,
             }, null ,2))
+
+            axios.post('http://127.0.0.1:8000/api/handle_form_data', JSON.stringify({
+                Cost: this.Cost,
+                Levels: this.DATA.Levels[this.Levels],
+                Form: this.DATA.Forms[this.Form],
+                Topping: this.DATA.Toppings[this.Topping],
+                Berries: this.DATA.Berries[this.Berries],
+                Decor: this.DATA.Decors[this.Decor],
+                Words: this.Words,
+                Comments: this.Comments,
+                Name: this.Name,
+                Phone: this.Phone,
+                Email: this.Email,
+                Address: this.Address,
+                Dates: this.Dates,
+                Time: this.Time,
+                DelivComments: this.DelivComments,
+            }, null ,2))
         }
     },
     computed: {
