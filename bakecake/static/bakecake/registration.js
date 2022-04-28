@@ -13,7 +13,7 @@ Vue.createApp({
                     }
                     return 'Поле не заполнено';
                 },
-                phone_format: (value) => {
+                number_format: (value) => {
                     const regex = /^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$/
                     if (!value) {
                         return true;
@@ -24,14 +24,14 @@ Vue.createApp({
                     }
                     return true;
                 },
-                code_format: (value) => {
+                password_format: (value) => {
                     const regex = /^[a-zA-Z0-9]+$/
                     if (!value) {
                         return true;
                     }
                     if ( !regex.test(value)) {
 
-                        return '⚠ Формат кода нарушен';
+                        return '⚠ Формат пароля нарушен';
                     }
                     return true;
                 }
@@ -44,15 +44,15 @@ Vue.createApp({
     methods: {
         RegSubmit() {
             if (this.Step === 'Number') {
-                this.Step = 'Code'
+                this.Step = 'Password'
 
-                console.log('Введённый номер:', this.RegInput)
+                console.log('Введённый номер телефона:', this.RegInput)
                 this.EnteredNumber = this.RegInput
                 this.RegInput = ''
             }
             else {
                 this.Step = 'Finish'
-                console.log('Введённый код:', this.RegInput, 'Регистрация успешна')
+                console.log('Введённый пароль:', this.RegInput, 'Регистрация успешна')
                 this.RegInput = 'Регистрация успешна'
             }
         },
