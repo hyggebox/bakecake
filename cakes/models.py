@@ -42,7 +42,7 @@ class CakeLevel(models.Model):
         verbose_name_plural = 'Уровни торта'
 
     def __str__(self):
-        return f'{self.level_count} уровень'
+        return f'{self.level_count}'
 
 
 class CakeShape(models.Model):
@@ -68,7 +68,7 @@ class CakeShape(models.Model):
         verbose_name_plural = 'Формы торта'
 
     def __str__(self):
-        return self.shape
+        return self.get_shape_display()
 
 
 class CakeTopping(models.Model):
@@ -98,7 +98,7 @@ class CakeTopping(models.Model):
         verbose_name_plural = 'Топпинги'
 
     def __str__(self):
-        return self.cake_topping
+        return self.get_cake_topping_display()
 
 
 class CakeBerry(models.Model):
@@ -126,7 +126,7 @@ class CakeBerry(models.Model):
         verbose_name_plural = 'Ягоды'
 
     def __str__(self):
-        return self.cake_berry
+        return self.get_cake_berry_display()
 
 
 class CakeDecor(models.Model):
@@ -137,7 +137,7 @@ class CakeDecor(models.Model):
         ('hazelnuts', 'Фундук'),
         ('pekan', 'Пекан'),
         ('marshmallow', 'Маршмеллоу'),
-        ('marshmallow', 'Марципан'),
+        ('marzipan', 'Марципан'),
     )
     cake_decor = models.CharField(
         max_length=15,
@@ -156,7 +156,7 @@ class CakeDecor(models.Model):
         verbose_name_plural = 'Декор'
 
     def __str__(self):
-        return self.cake_decor
+        return self.get_cake_decor_display()
 
 
 class Cake(models.Model):
@@ -196,11 +196,6 @@ class Cake(models.Model):
     comment = models.TextField(
         verbose_name='Комментарий',
         blank=True
-    )
-    base_price = models.DecimalField(
-        verbose_name='Базовая стоимость',
-        max_digits=15,
-        decimal_places=2
     )
 
     class Meta:
@@ -270,6 +265,11 @@ class Order(models.Model):
         blank=True,
         null=True,
         db_index=True
+    )
+    price = models.DecimalField(
+        verbose_name='Стоимость',
+        max_digits=15,
+        decimal_places=2
     )
 
     class Meta:
