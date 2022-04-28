@@ -96,8 +96,8 @@ Vue.createApp({
                 Decors: [ 'нет', 'Фисташки', 'Безе', 'Фундук', 'Пекан', 'Маршмеллоу', 'Марципан']
             },
             Costs: {
-                Levels: [0, 400, 750, 1100, 15000],
-                // Levels: [],
+                // Levels: [0, 400, 750, 1100, 15000],
+                Levels: [],
                 Forms: [0, 600, 400, 1000],
                 Toppings: [0, 0, 200, 180, 200, 300, 350, 200],
                 Berries: [0, 400, 300, 450, 500],
@@ -158,10 +158,25 @@ Vue.createApp({
         }
     },
     mounted() {
+        console.log('start!')
         axios
-            .get('https://api.coindesk.com/v1/bpi/currentprice.json')
-            // .then(response => (this.DATA["Levels"] = ['не выбрано', '1', '2', '3', '4']));
-            .then(this.DATA["Levels"] = ['не выбрано', '1', '2', '3', '4'])
-            // .then(console.log('ready!'))
+            .get('http://127.0.0.1:8000/api/cake')
+            // .then(function(response){
+            //     console.log(this)
+            //     return response
+            // })
+            // .then(function(response){
+            //     this.DATA["Levels"] = ['не выбрано', '1', '2', '3', '4']
+            //     this.Costs["Levels"] = [0, 400, 750, 1100, 15000]
+            //     return response
+            // })
+            // .then(console.log(this))
+            // .then(this.DATA["Levels"] = ['не выбрано', '1', '2', '3', '4'])
+            .then(response => {
+                this.DATA["Levels"] = ['не выбрано', '1', '2', '3']
+                this.Costs["Levels"] = [0, 400, 750, 1100]
+                console.log(response.data)
+                // console.log(this.DATA['Levels'])
+            })
     }
 }).mount('#VueApp')

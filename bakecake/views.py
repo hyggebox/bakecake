@@ -7,8 +7,15 @@ from django.contrib.auth.decorators import login_required
 from cakes.models import (CakeLevel, CakeShape, CakeTopping,
                           CakeDecor, CakeBerry)
 
+
+
+
 def render_index_page(request):
+    levels_query_set = CakeLevel.objects.values_list('level_count')
+    levels = [level[0] for level in levels_query_set]
+
     return render(request, 'index.html')
+
 
 @login_required(login_url='/auth/login/')
 def render_lk_page(request):
