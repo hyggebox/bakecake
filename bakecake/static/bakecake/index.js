@@ -88,14 +88,16 @@ Vue.createApp({
                 }
             },
             DATA: {
-                Levels: ['не выбрано', '1', '2', '3'],
+                // Levels: ['не выбрано', '1', '2', '3', '4'],
+                Levels: [],
                 Forms: ['не выбрано', 'Круг', 'Квадрат', 'Прямоугольник'],
                 Toppings: ['не выбрано', 'Без', 'Белый соус', 'Карамельный', 'Кленовый', 'Черничный', 'Молочный шоколад', 'Клубничный'],
                 Berries: ['нет', 'Ежевика', 'Малина', 'Голубика', 'Клубника'],
                 Decors: [ 'нет', 'Фисташки', 'Безе', 'Фундук', 'Пекан', 'Маршмеллоу', 'Марципан']
             },
             Costs: {
-                Levels: [0, 400, 750, 1100],
+                // Levels: [0, 400, 750, 1100, 15000],
+                Levels: [],
                 Forms: [0, 600, 400, 1000],
                 Toppings: [0, 0, 200, 180, 200, 300, 350, 200],
                 Berries: [0, 400, 300, 450, 500],
@@ -145,6 +147,24 @@ Vue.createApp({
                 Time: this.Time,
                 DelivComments: this.DelivComments,
             }, null ,2))
+
+            axios.post('http://127.0.0.1:8000/api/handle_form_data', JSON.stringify({
+                Cost: this.Cost,
+                Levels: this.DATA.Levels[this.Levels],
+                Form: this.DATA.Forms[this.Form],
+                Topping: this.DATA.Toppings[this.Topping],
+                Berries: this.DATA.Berries[this.Berries],
+                Decor: this.DATA.Decors[this.Decor],
+                Words: this.Words,
+                Comments: this.Comments,
+                Name: this.Name,
+                Phone: this.Phone,
+                Email: this.Email,
+                Address: this.Address,
+                Dates: this.Dates,
+                Time: this.Time,
+                DelivComments: this.DelivComments,
+            }, null ,2))
         }
     },
     computed: {
@@ -154,5 +174,27 @@ Vue.createApp({
                 this.Costs.Toppings[this.Topping] + this.Costs.Berries[this.Berries] +
                 this.Costs.Decors[this.Decor] + W
         }
+    },
+    mounted() {
+        console.log('start!')
+        axios
+            .get('http://127.0.0.1:8000/api/cake')
+            // .then(function(response){
+            //     console.log(this)
+            //     return response
+            // })
+            // .then(function(response){
+            //     this.DATA["Levels"] = ['не выбрано', '1', '2', '3', '4']
+            //     this.Costs["Levels"] = [0, 400, 750, 1100, 15000]
+            //     return response
+            // })
+            // .then(console.log(this))
+            // .then(this.DATA["Levels"] = ['не выбрано', '1', '2', '3', '4'])
+            .then(response => {
+                this.DATA["Levels"] = ['не выбрано', '1', '2', '3']
+                this.Costs["Levels"] = [0, 400, 750, 1100]
+                console.log(response.data)
+                // console.log(this.DATA['Levels'])
+            })
     }
 }).mount('#VueApp')
