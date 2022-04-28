@@ -30,8 +30,7 @@ class CakeLevel(models.Model):
     level_count = models.IntegerField(
         verbose_name='Количество уровней',
         validators=[
-            MinValueValidator(1),
-            MaxValueValidator(3),
+            MinValueValidator(1)
         ]
     )
     price = models.DecimalField(
@@ -49,16 +48,9 @@ class CakeLevel(models.Model):
 
 
 class CakeShape(models.Model):
-    CAKE_SHAPE = (
-        ('round', 'Круг'),
-        ('square', 'Квадрат'),
-        ('rectangle', 'Прямоугольник'),
-    )
     shape = models.CharField(
-        max_length=10,
+        max_length=50,
         verbose_name='Форма',
-        choices=CAKE_SHAPE,
-        default='round'
     )
     price = models.DecimalField(
         verbose_name='Стоимость',
@@ -71,24 +63,13 @@ class CakeShape(models.Model):
         verbose_name_plural = 'Формы торта'
 
     def __str__(self):
-        return self.get_shape_display()
+        return self.shape
 
 
 class CakeTopping(models.Model):
-    TOPPING = (
-        (None, 'Выберите топпинг'),
-        ('white', 'Белый соус'),
-        ('caramel', 'Карамельный'),
-        ('maple', 'Кленовый'),
-        ('blueberry', 'Черничный'),
-        ('choco', 'Молочный шоколад'),
-        ('strawberry', 'Клубничный'),
-    )
     cake_topping = models.CharField(
-        max_length=15,
+        max_length=50,
         verbose_name='Топпинг',
-        choices=TOPPING,
-        blank=True
     )
     price = models.DecimalField(
         verbose_name='Стоимость',
@@ -101,22 +82,13 @@ class CakeTopping(models.Model):
         verbose_name_plural = 'Топпинги'
 
     def __str__(self):
-        return self.get_cake_topping_display()
+        return self.cake_topping
 
 
 class CakeBerry(models.Model):
-    BERRIES = (
-        (None, 'Выберите ягоды'),
-        ('blackberry', 'Ежевика'),
-        ('raspberry', 'Малина'),
-        ('blueberry', 'Голубика'),
-        ('strawberry', 'Клубника'),
-    )
     cake_berry = models.CharField(
         max_length=15,
         verbose_name='Ягоды',
-        choices=BERRIES,
-        blank=True
     )
     price = models.DecimalField(
         verbose_name='Стоимость',
@@ -129,24 +101,13 @@ class CakeBerry(models.Model):
         verbose_name_plural = 'Ягоды'
 
     def __str__(self):
-        return self.get_cake_berry_display()
+        return self.cake_berry
 
 
 class CakeDecor(models.Model):
-    DEC0R = (
-        (None, 'Выберите декор'),
-        ('pistachios', 'Фисташки'),
-        ('meringue', 'Безе'),
-        ('hazelnuts', 'Фундук'),
-        ('pekan', 'Пекан'),
-        ('marshmallow', 'Маршмеллоу'),
-        ('marzipan', 'Марципан'),
-    )
     cake_decor = models.CharField(
         max_length=15,
-        verbose_name='Декор',
-        choices=DEC0R,
-        blank=True
+        verbose_name='Декор'
     )
     price = models.DecimalField(
         verbose_name='Стоимость',
@@ -159,7 +120,7 @@ class CakeDecor(models.Model):
         verbose_name_plural = 'Декор'
 
     def __str__(self):
-        return self.get_cake_decor_display()
+        return self.cake_decor
 
 
 class Cake(models.Model):
@@ -181,15 +142,17 @@ class Cake(models.Model):
         related_name='toppings',
         on_delete=models.CASCADE
     )
-    berry = models.ManyToManyField(
+    berry = models.ForeignKey(
         CakeBerry,
         verbose_name='Ягоды',
-        related_name='berries'
+        related_name='berries',
+        on_delete=models.CASCADE
     )
-    decor = models.ManyToManyField(
+    decor = models.ForeignKey(
         CakeDecor,
         verbose_name='Декор',
-        related_name='decors'
+        related_name='decors',
+        on_delete=models.CASCADE
     )
     inscription = models.CharField(
         max_length=200,
