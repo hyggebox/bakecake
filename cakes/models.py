@@ -1,5 +1,8 @@
+from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
+from django.contrib.auth.models import PermissionsMixin
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
+from django.utils.translation import gettext_lazy
 from phonenumber_field.modelfields import PhoneNumberField
 
 
@@ -279,3 +282,60 @@ class Order(models.Model):
 
     def __str__(self):
         return f'{self.customer}: {self.registered_at}'
+
+
+
+class CustomUserManager(BaseUserManager):
+
+    def create_user(self, phonenumber, email, username, password,
+                    **other_fields):
+
+        email = self.normalize_email(email)
+
+        user = self.model(phonenumber=phonenumber,
+                          email=email,
+                          username=username,
+                          **other_fields)
+        user.set_password(password)
+        user.save()
+        return user
+
+
+    def create_superuser(self, phonenumber, email, username, password,
+                         **other_fields):
+
+        other_fields.setdefault('is_admin', True)
+        other_fields.setdefault('is_staff', True)
+        other_fields.setdefault('is_active', True)
+        other_fields.setdefault('is_superuser', True)
+
+        return self.create_user(phonenumber, email, username, password, **other_fields)
+
+
+class CustomUser(AbstractBaseUser, PermissionsMixin):
+    phonenumber = PhoneNumberField(gettext_lazy('номер телефона'), unique=True)
+    email = models.EmailField(
+                        verbose_name='email',
+                        max_length=255,
+                        unique=True,
+                    )
+    username = models.CharField(
+        verbose_name='имя',
+        max_length=150
+    )
+
+    is_active = models.BooleanField(default=True)
+    is_admin = models.BooleanField(default=False)
+    is_staff = models.BooleanField(default=False)
+
+    objects = CustomUserManager()
+
+    USERNAME_FIELD = 'phonenumber'
+    REQUIRED_FIELDS = ['email', 'username']
+
+    def __str__(self):
+         return self.username
+
+    class Meta:
+        verbose_name = 'Пользователя'
+        verbose_name_plural = '_ПОЛЬЗОВАТЕЛИ'
