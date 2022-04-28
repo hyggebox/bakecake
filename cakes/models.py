@@ -240,6 +240,11 @@ class Order(models.Model):
         verbose_name='Стоимость',
     )
 
+    delivery_comment = models.TextField(
+        'Комментарий для курьера',
+        blank=True
+    )
+
     class Meta:
         verbose_name = 'Заказ'
         verbose_name_plural = 'Заказы'
