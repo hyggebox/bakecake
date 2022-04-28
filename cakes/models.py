@@ -193,6 +193,15 @@ class Customer(models.Model):
 
 
 class Order(models.Model):
+    STATUS = (
+        (None, 'Укажите статус заказа'),
+        ('n', 'Новый'),
+        ('a', 'Принят'),
+        ('p', 'Готовится'),
+        ('d', 'Передан в доставку'),
+        ('c', 'Выполнен'),
+    )
+
     customer = models.ForeignKey(
         Customer,
         verbose_name='Заказчик',
@@ -204,6 +213,12 @@ class Order(models.Model):
         verbose_name='Заказанный торт',
         related_name='cakes',
         on_delete=models.PROTECT,
+    )
+    status = models.CharField(
+        max_length=20,
+        verbose_name='Статус заказа',
+        choices=STATUS,
+        blank=True
     )
     registered_at = models.DateTimeField(
         'Время регистрации заказа',
