@@ -33,10 +33,8 @@ class CakeLevel(models.Model):
             MinValueValidator(1)
         ]
     )
-    price = models.DecimalField(
+    price = models.IntegerField(
         verbose_name='Стоимость',
-        max_digits=15,
-        decimal_places=2
     )
 
     class Meta:
@@ -52,10 +50,8 @@ class CakeShape(models.Model):
         max_length=50,
         verbose_name='Форма',
     )
-    price = models.DecimalField(
+    price = models.IntegerField(
         verbose_name='Стоимость',
-        max_digits=15,
-        decimal_places=2
     )
 
     class Meta:
@@ -71,10 +67,8 @@ class CakeTopping(models.Model):
         max_length=50,
         verbose_name='Топпинг',
     )
-    price = models.DecimalField(
+    price = models.IntegerField(
         verbose_name='Стоимость',
-        max_digits=15,
-        decimal_places=2
     )
 
     class Meta:
@@ -90,10 +84,8 @@ class CakeBerry(models.Model):
         max_length=15,
         verbose_name='Ягоды',
     )
-    price = models.DecimalField(
+    price = models.IntegerField(
         verbose_name='Стоимость',
-        max_digits=15,
-        decimal_places=2
     )
 
     class Meta:
@@ -109,10 +101,8 @@ class CakeDecor(models.Model):
         max_length=15,
         verbose_name='Декор'
     )
-    price = models.DecimalField(
+    price = models.IntegerField(
         verbose_name='Стоимость',
-        max_digits=15,
-        decimal_places=2
     )
 
     class Meta:
@@ -232,10 +222,8 @@ class Order(models.Model):
         null=True,
         db_index=True
     )
-    price = models.DecimalField(
+    price = models.IntegerField(
         verbose_name='Стоимость',
-        max_digits=15,
-        decimal_places=2
     )
 
     class Meta:
