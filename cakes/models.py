@@ -194,7 +194,6 @@ class Customer(models.Model):
 
 class Order(models.Model):
     STATUS = (
-        (None, 'Укажите статус заказа'),
         ('n', 'Новый'),
         ('a', 'Принят'),
         ('p', 'Готовится'),
@@ -218,7 +217,7 @@ class Order(models.Model):
         max_length=20,
         verbose_name='Статус заказа',
         choices=STATUS,
-        blank=True
+        default='s'
     )
     registered_at = models.DateTimeField(
         'Время регистрации заказа',
