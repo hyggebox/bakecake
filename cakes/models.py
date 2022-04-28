@@ -192,63 +192,6 @@ class Customer(models.Model):
         return f'{self.firstname} {self.lastname}'
 
 
-class Order(models.Model):
-    STATUS = (
-        ('n', 'Новый'),
-        ('a', 'Принят'),
-        ('p', 'Готовится'),
-        ('d', 'Передан в доставку'),
-        ('c', 'Выполнен'),
-    )
-
-    customer = models.ForeignKey(
-        Customer,
-        verbose_name='Заказчик',
-        related_name='customers',
-        on_delete=models.CASCADE
-    )
-    cake = models.ForeignKey(
-        Cake,
-        verbose_name='Заказанный торт',
-        related_name='cakes',
-        on_delete=models.PROTECT,
-    )
-    status = models.CharField(
-        max_length=20,
-        verbose_name='Статус заказа',
-        choices=STATUS,
-        default='s'
-    )
-    registered_at = models.DateTimeField(
-        'Время регистрации заказа',
-        auto_now_add=True,
-        db_index=True
-    )
-    called_at = models.DateTimeField(
-        'Время звонка клиенту',
-        blank=True,
-        null=True,
-        db_index=True
-    )
-    delivered_at = models.DateTimeField(
-        'Время доставки заказа',
-        blank=True,
-        null=True,
-        db_index=True
-    )
-    price = models.IntegerField(
-        verbose_name='Стоимость',
-    )
-
-    class Meta:
-        verbose_name = 'Заказ'
-        verbose_name_plural = 'Заказы'
-        ordering = ['-registered_at']
-
-    def __str__(self):
-        return f'{self.customer}: {self.registered_at}'
-
-
 
 class CustomUserManager(BaseUserManager):
 
@@ -304,3 +247,72 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     class Meta:
         verbose_name = 'Пользователя'
         verbose_name_plural = '_ПОЛЬЗОВАТЕЛИ'
+
+
+
+class Order(models.Model):
+    STATUS = (
+        ('n', 'Новый'),
+        ('a', 'Принят'),
+        ('p', 'Готовится'),
+        ('d', 'Передан в доставку'),
+        ('c', 'Выполнен'),
+    )
+
+    customer = models.ForeignKey(
+        CustomUser,
+        verbose_name='Заказчик',
+        related_name='orders',
+        on_delete=models.CASCADE
+    )
+    cake = models.ForeignKey(
+        Cake,
+        verbose_name='Заказанный торт',
+        related_name='orders',
+        on_delete=models.PROTECT,
+    )
+    status = models.CharField(
+        max_length=20,
+        verbose_name='Статус заказа',
+        choices=STATUS,
+        default='s'
+    )
+    registered_at = models.DateTimeField(
+        'Время регистрации заказа',
+        auto_now_add=True,
+        db_index=True
+    )
+    called_at = models.DateTimeField(
+        'Время звонка клиенту',
+        blank=True,
+        null=True,
+        db_index=True
+    )
+    delivered_at = models.DateTimeField(
+        'Время доставки заказа',
+        blank=True,
+        null=True,
+        db_index=True
+    )
+    price = models.IntegerField(
+        verbose_name='Стоимость',
+    )
+    deliver_address = models.CharField(
+        'Адрес доставки',
+        max_length=200,
+        blank=True,
+    )
+    deliver_date = models.DateTimeField(
+        'Доставить к',
+        blank=True,
+        null=True,
+        db_index=True
+    )
+
+    class Meta:
+        verbose_name = 'Заказ'
+        verbose_name_plural = 'Заказы'
+        ordering = ['-registered_at']
+
+    def __str__(self):
+        return f'{self.customer}: {self.registered_at}'

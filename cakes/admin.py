@@ -2,22 +2,18 @@ from django.contrib import admin
 
 from .models import Discounts
 from .models import Cake
-from .models import Customer
 from .models import Order
 from .models import (CakeDecor, CakeBerry, CakeShape, CakeTopping, CakeLevel)
 from .models import CustomUser
 
 
-@admin.register(Customer)
-class CustomerAdmin(admin.ModelAdmin):
-    pass
-
-
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
+    list_display = ('customer', 'registered_at', 'cake', 'status')
     readonly_fields = [
         'registered_at',
     ]
+    list_editable = ['status']
 
 
 @admin.register(Cake)
