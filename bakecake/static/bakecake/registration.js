@@ -13,14 +13,14 @@ Vue.createApp({
                     }
                     return 'Поле не заполнено';
                 },
-                email_format: (value) => {
-                    const regex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i
+                number_format: (value) => {
+                    const regex = /^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$/
                     if (!value) {
                         return true;
                     }
                     if ( !regex.test(value)) {
 
-                        return '⚠ Формат email нарушен';
+                        return '⚠ Формат телефона нарушен';
                     }
                     return true;
                 },
@@ -36,17 +36,17 @@ Vue.createApp({
                     return true;
                 }
             },
-            Step: 'Email',
+            Step: 'Number',
             RegInput: '',
             EnteredNumber: ''
         }
     },
     methods: {
         RegSubmit() {
-            if (this.Step === 'Email') {
+            if (this.Step === 'Number') {
                 this.Step = 'Password'
 
-                console.log('Введённый email:', this.RegInput)
+                console.log('Введённый номер телефона:', this.RegInput)
                 this.EnteredNumber = this.RegInput
                 this.RegInput = ''
             }
@@ -57,11 +57,11 @@ Vue.createApp({
             }
         },
         ToRegStep1() {
-            this.Step = 'Email'
+            this.Step = 'Number'
             this.RegInput = this.EnteredNumber
         },
         Reset() {
-            this.Step = 'Email'
+            this.Step = 'Number'
             this.RegInput = ''
             EnteredNumber = ''
         }
