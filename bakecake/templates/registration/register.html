@@ -2,29 +2,31 @@
 {% load static %}
 {% load widget_tweaks %}
 
-{% block title %}Логин{%endblock%}
+{% block title %}Регистрация{%endblock%}
 
 {% block content %}
 
 <div class="container mt-header mb-5">
   <div class="row mt-5">
     <div class="col-12 col-xxl-12 d-flex justify-content-center">
+      <form method="post">
+        {% csrf_token %}
 
-            <form method="post">
-              {% csrf_token %}
-
-              {% for field in form %}
-              <label class="me-2 mt-4 mb-1 cake_blue" style="font-size: 26px">{{ field.label }}</label>
-              <div class="col-12 col-md-12 col-lg-12 pt-2">
-                {{ field|add_class:"form-control cake__textinput" }}
-              </div>
-              {%  endfor %}
-              <div class="d-flex justify-content-center">
-                <button type="submit" class="btn btn_hover text-white rounded-pill mt-3 px-5 shadow-none cake__button cake__bg_pink" style="width:100%">Зарегистрироваться</button>
-              </div>
-            </form>
-
-
+        {% for field in form %}
+        <label class="me-2 mt-4 mb-1 cake_blue" style="font-size: 26px">{{ field.label }}</label>
+        <div class="col-12 col-md-12 col-lg-12 pt-2">
+          {{ field|add_class:"form-control cake__textinput" }}
+        </div>
+        {%  endfor %}
+        <div class="d-flex justify-content-center">
+          <button type="submit" class="btn btn_hover text-white rounded-pill mt-3 px-5 shadow-none cake__button cake__bg_pink" style="width:100%">Зарегистрироваться</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="row mt-5">
+    <div class="col-12 col-xxl-12 d-flex justify-content-center">
+      <span class="fs_12 cake_grey">Есть аккаунт? <a class="fw-lighter cake_blue fs_12 fw-bold" href="{% url 'login' %}">Войти</a></span>
     </div>
   </div>
 </div>
