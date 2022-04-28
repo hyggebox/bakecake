@@ -88,16 +88,16 @@ Vue.createApp({
                 }
             },
             DATA: {
-                // Levels: ['не выбрано', '1', '2', '3', '4'],
-                Levels: [],
+                Levels: ['не выбрано', '1', '2', '3', '4'],
+                // Levels: [],
                 Forms: ['не выбрано', 'Круг', 'Квадрат', 'Прямоугольник'],
                 Toppings: ['не выбрано', 'Без', 'Белый соус', 'Карамельный', 'Кленовый', 'Черничный', 'Молочный шоколад', 'Клубничный'],
                 Berries: ['нет', 'Ежевика', 'Малина', 'Голубика', 'Клубника'],
                 Decors: [ 'нет', 'Фисташки', 'Безе', 'Фундук', 'Пекан', 'Маршмеллоу', 'Марципан']
             },
             Costs: {
-                // Levels: [0, 400, 750, 1100, 15000],
-                Levels: [],
+                Levels: [0, 400, 750, 1100, 15000],
+                // Levels: [],
                 Forms: [0, 600, 400, 1000],
                 Toppings: [0, 0, 200, 180, 200, 300, 350, 200],
                 Berries: [0, 400, 300, 450, 500],
@@ -147,7 +147,8 @@ Vue.createApp({
                 Time: this.Time,
                 DelivComments: this.DelivComments,
             }, null ,2))
-
+            
+            alert('Do you want some POST?')
             axios.post('http://127.0.0.1:8000/api/cake', JSON.stringify({
                 Cost: this.Cost,
                 Levels: this.DATA.Levels[this.Levels],

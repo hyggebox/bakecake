@@ -1,3 +1,4 @@
+from django.http import HttpResponse
 from django.shortcuts import render
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -56,7 +57,11 @@ class CakeBerrySerializer(ModelSerializer):
 
 @api_view(['GET', 'POST'])
 def cake_api(request):
+    if request.method == 'POST':
+        print('WAS POST!!!!')
+        return Response(23)
     if request.method == 'GET':
+        print('WAS GET')
         levels = CakeLevel.objects.all()
         shapes = CakeShape.objects.all()
         toppings = CakeTopping.objects.all()
