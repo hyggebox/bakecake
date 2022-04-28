@@ -63,13 +63,28 @@ def cake_api(request):
         decors = CakeDecor.objects.all()
         berries = CakeBerry.objects.all()
 
-        components = {
-            'levels': CakeLevelSerializer(levels, many=True).data,
-            'shapes': CakeShapeSerializer(shapes, many=True).data,
-            'toppings': CakeToppingSerializer(toppings, many=True).data,
-            'decors': CakeDecorSerializer(decors, many=True).data,
-            'berries': CakeBerrySerializer(berries, many=True).data,
+        level_prices = [
+            level['price'] for level in CakeLevelSerializer(levels, many=True).data
+        ]
+        shape_prices = [
+            shape['price'] for shape in CakeShapeSerializer(shapes, many=True).data
+        ]
+        topping_prices = [
+            topping['price'] for topping in CakeToppingSerializer(toppings, many=True).data
+        ]
+        decor_prices = [
+            decor['price'] for decor in CakeDecorSerializer(decors, many=True).data
+        ]
+        berry_prices = [
+            berry['price'] for berry in CakeBerrySerializer(berries, many=True).data
+        ]
 
+        components = {
+            'levels': level_prices,
+            'shapes': shape_prices,
+            'toppings': topping_prices,
+            'decors': decor_prices,
+            'berries': berry_prices,
         }
 
         return Response(components)

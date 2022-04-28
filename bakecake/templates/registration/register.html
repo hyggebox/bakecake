@@ -1,16 +1,44 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Title</title>
-</head>
-<body>
+{% extends 'base.html' %}
+{% load static %}
+{% load widget_tweaks %}
 
-<form method="post">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <button type="submit">Регистрация</button>
-</form>
+{% block title %}Логин{%endblock%}
 
-</body>
-</html>
+{% block content %}
+
+<div class="container mt-header mb-5">
+  <div class="row mt-5">
+    <div class="col-12 col-xxl-12 d-flex justify-content-center">
+
+            <form method="post">
+              {% csrf_token %}
+
+              {% for field in form %}
+              <label class="me-2 mt-4 mb-1 cake_blue" style="font-size: 26px">{{ field.label }}</label>
+              <div class="col-12 col-md-12 col-lg-12 pt-2">
+                {{ field|add_class:"form-control cake__textinput" }}
+              </div>
+              {%  endfor %}
+              <div class="d-flex justify-content-center">
+                <button type="submit" class="btn btn_hover text-white rounded-pill mt-3 px-5 shadow-none cake__button cake__bg_pink" style="width:100%">Зарегистрироваться</button>
+              </div>
+            </form>
+
+
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+

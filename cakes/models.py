@@ -1,5 +1,8 @@
+from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
+from django.contrib.auth.models import PermissionsMixin
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
+from django.utils.translation import gettext_lazy
 from phonenumber_field.modelfields import PhoneNumberField
 
 
@@ -27,14 +30,11 @@ class CakeLevel(models.Model):
     level_count = models.IntegerField(
         verbose_name='Количество уровней',
         validators=[
-            MinValueValidator(1),
-            MaxValueValidator(3),
+            MinValueValidator(1)
         ]
     )
-    price = models.DecimalField(
+    price = models.IntegerField(
         verbose_name='Стоимость',
-        max_digits=15,
-        decimal_places=2
     )
 
     class Meta:
@@ -46,21 +46,12 @@ class CakeLevel(models.Model):
 
 
 class CakeShape(models.Model):
-    CAKE_SHAPE = (
-        ('round', 'Круг'),
-        ('square', 'Квадрат'),
-        ('rectangle', 'Прямоугольник'),
-    )
     shape = models.CharField(
-        max_length=10,
+        max_length=50,
         verbose_name='Форма',
-        choices=CAKE_SHAPE,
-        default='round'
     )
-    price = models.DecimalField(
+    price = models.IntegerField(
         verbose_name='Стоимость',
-        max_digits=15,
-        decimal_places=2
     )
 
     class Meta:
@@ -68,29 +59,16 @@ class CakeShape(models.Model):
         verbose_name_plural = 'Формы торта'
 
     def __str__(self):
-        return self.get_shape_display()
+        return self.shape
 
 
 class CakeTopping(models.Model):
-    TOPPING = (
-        (None, 'Выберите топпинг'),
-        ('white', 'Белый соус'),
-        ('caramel', 'Карамельный'),
-        ('maple', 'Кленовый'),
-        ('blueberry', 'Черничный'),
-        ('choco', 'Молочный шоколад'),
-        ('strawberry', 'Клубничный'),
-    )
     cake_topping = models.CharField(
-        max_length=15,
+        max_length=50,
         verbose_name='Топпинг',
-        choices=TOPPING,
-        blank=True
     )
-    price = models.DecimalField(
+    price = models.IntegerField(
         verbose_name='Стоимость',
-        max_digits=15,
-        decimal_places=2
     )
 
     class Meta:
@@ -98,27 +76,16 @@ class CakeTopping(models.Model):
         verbose_name_plural = 'Топпинги'
 
     def __str__(self):
-        return self.get_cake_topping_display()
+        return self.cake_topping
 
 
 class CakeBerry(models.Model):
-    BERRIES = (
-        (None, 'Выберите ягоды'),
-        ('blackberry', 'Ежевика'),
-        ('raspberry', 'Малина'),
-        ('blueberry', 'Голубика'),
-        ('strawberry', 'Клубника'),
-    )
     cake_berry = models.CharField(
         max_length=15,
         verbose_name='Ягоды',
-        choices=BERRIES,
-        blank=True
     )
-    price = models.DecimalField(
+    price = models.IntegerField(
         verbose_name='Стоимость',
-        max_digits=15,
-        decimal_places=2
     )
 
     class Meta:
@@ -126,29 +93,16 @@ class CakeBerry(models.Model):
         verbose_name_plural = 'Ягоды'
 
     def __str__(self):
-        return self.get_cake_berry_display()
+        return self.cake_berry
 
 
 class CakeDecor(models.Model):
-    DEC0R = (
-        (None, 'Выберите декор'),
-        ('pistachios', 'Фисташки'),
-        ('meringue', 'Безе'),
-        ('hazelnuts', 'Фундук'),
-        ('pekan', 'Пекан'),
-        ('marshmallow', 'Маршмеллоу'),
-        ('marzipan', 'Марципан'),
-    )
     cake_decor = models.CharField(
         max_length=15,
-        verbose_name='Декор',
-        choices=DEC0R,
-        blank=True
+        verbose_name='Декор'
     )
-    price = models.DecimalField(
+    price = models.IntegerField(
         verbose_name='Стоимость',
-        max_digits=15,
-        decimal_places=2
     )
 
     class Meta:
@@ -156,7 +110,7 @@ class CakeDecor(models.Model):
         verbose_name_plural = 'Декор'
 
     def __str__(self):
-        return self.get_cake_decor_display()
+        return self.cake_decor
 
 
 class Cake(models.Model):
@@ -178,15 +132,17 @@ class Cake(models.Model):
         related_name='toppings',
         on_delete=models.CASCADE
     )
-    berry = models.ManyToManyField(
+    berry = models.ForeignKey(
         CakeBerry,
         verbose_name='Ягоды',
-        related_name='berries'
+        related_name='berries',
+        on_delete=models.CASCADE
     )
-    decor = models.ManyToManyField(
+    decor = models.ForeignKey(
         CakeDecor,
         verbose_name='Декор',
-        related_name='decors'
+        related_name='decors',
+        on_delete=models.CASCADE
     )
     inscription = models.CharField(
         max_length=200,
@@ -266,10 +222,8 @@ class Order(models.Model):
         null=True,
         db_index=True
     )
-    price = models.DecimalField(
+    price = models.IntegerField(
         verbose_name='Стоимость',
-        max_digits=15,
-        decimal_places=2
     )
 
     class Meta:
@@ -279,3 +233,60 @@ class Order(models.Model):
 
     def __str__(self):
         return f'{self.customer}: {self.registered_at}'
+
+
+
+class CustomUserManager(BaseUserManager):
+
+    def create_user(self, phonenumber, email, username, password,
+                    **other_fields):
+
+        email = self.normalize_email(email)
+
+        user = self.model(phonenumber=phonenumber,
+                          email=email,
+                          username=username,
+                          **other_fields)
+        user.set_password(password)
+        user.save()
+        return user
+
+
+    def create_superuser(self, phonenumber, email, username, password,
+                         **other_fields):
+
+        other_fields.setdefault('is_admin', True)
+        other_fields.setdefault('is_staff', True)
+        other_fields.setdefault('is_active', True)
+        other_fields.setdefault('is_superuser', True)
+
+        return self.create_user(phonenumber, email, username, password, **other_fields)
+
+
+class CustomUser(AbstractBaseUser, PermissionsMixin):
+    phonenumber = PhoneNumberField(gettext_lazy('номер телефона'), unique=True)
+    email = models.EmailField(
+                        verbose_name='email',
+                        max_length=255,
+                        unique=True,
+                    )
+    username = models.CharField(
+        verbose_name='имя',
+        max_length=150
+    )
+
+    is_active = models.BooleanField(default=True)
+    is_admin = models.BooleanField(default=False)
+    is_staff = models.BooleanField(default=False)
+
+    objects = CustomUserManager()
+
+    USERNAME_FIELD = 'phonenumber'
+    REQUIRED_FIELDS = ['email', 'username']
+
+    def __str__(self):
+         return self.username
+
+    class Meta:
+        verbose_name = 'Пользователя'
+        verbose_name_plural = '_ПОЛЬЗОВАТЕЛИ'
