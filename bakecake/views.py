@@ -2,6 +2,7 @@ from django.shortcuts import render
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.serializers import ModelSerializer
+from django.contrib.auth.decorators import login_required
 
 from cakes.models import (CakeLevel, CakeShape, CakeTopping,
                           CakeDecor, CakeBerry)
@@ -9,7 +10,7 @@ from cakes.models import (CakeLevel, CakeShape, CakeTopping,
 def render_index_page(request):
     return render(request, 'index.html')
 
-
+@login_required(login_url='/auth/login/')
 def render_lk_page(request):
     template = 'lk.html'
     # template = 'lk-order.html'
