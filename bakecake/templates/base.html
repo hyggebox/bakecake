@@ -48,11 +48,11 @@
 						<!--метка на иконке, убрать класс d-none чтоб появилась-->
 						<span class="position-absolute translate-middle badge rounded-pill cake__bg_pink fs_8 d-none">1</span>
 					</a>
-					<a class="nav-link fw-lighter me-1 cake_blue position-relative" href="#RegModal" data-bs-toggle="modal">
-						<img src="{% static 'bakecake/media/user.svg' %}" alt="">
+<!--					<a class="nav-link fw-lighter me-1 cake_blue position-relative" href="#RegModal" data-bs-toggle="modal">-->
+						<a href="{% url 'render_lk_page' %}"><img src="{% static 'bakecake/media/user.svg' %}" alt=""></a>
 						<!--метка на иконке, убрать класс d-none чтоб появилась-->
 						<span class="position-absolute translate-middle badge rounded-pill cake__bg_pink fs_8 d-none">1</span>
-					</a>
+<!--					</a>-->
           {% if user.is_authenticated %}
             <span class="nav-link fw-lighter cake_grey fs_12" >
             {{ user.username }}
