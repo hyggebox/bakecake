@@ -129,35 +129,35 @@ def cake_api(request):
 
         return Response(23)
 
-    # if request.method == 'GET':
-    #     levels = CakeLevel.objects.all()
-    #     shapes = CakeShape.objects.all()
-    #     toppings = CakeTopping.objects.all()
-    #     decors = CakeDecor.objects.all()
-    #     berries = CakeBerry.objects.all()
-    #
-    #     level_prices = [
-    #         level['price'] for level in CakeLevelSerializer(levels, many=True).data
-    #     ]
-    #     shape_prices = [
-    #         shape['price'] for shape in CakeShapeSerializer(shapes, many=True).data
-    #     ]
-    #     topping_prices = [
-    #         topping['price'] for topping in CakeToppingSerializer(toppings, many=True).data
-    #     ]
-    #     decor_prices = [
-    #         decor['price'] for decor in CakeDecorSerializer(decors, many=True).data
-    #     ]
-    #     berry_prices = [
-    #         berry['price'] for berry in CakeBerrySerializer(berries, many=True).data
-    #     ]
-    #
-    #     components = {
-    #         'levels': level_prices,
-    #         'shapes': shape_prices,
-    #         'toppings': topping_prices,
-    #         'decors': decor_prices,
-    #         'berries': berry_prices,
-    #     }
-    #
-    #     return Response(components)
+    if request.method == 'GET':
+        levels = CakeLevel.objects.all()
+        shapes = CakeShape.objects.all()
+        toppings = CakeTopping.objects.all()
+        decors = CakeDecor.objects.all()
+        berries = CakeBerry.objects.all()
+
+        level_prices = [
+            level['price'] for level in CakeLevelSerializer(levels, many=True).data
+        ]
+        shape_prices = [
+            shape['price'] for shape in CakeShapeSerializer(shapes, many=True).data
+        ]
+        topping_prices = [
+            topping['price'] for topping in CakeToppingSerializer(toppings, many=True).data
+        ]
+        decor_prices = [
+            decor['price'] for decor in CakeDecorSerializer(decors, many=True).data
+        ]
+        berry_prices = [
+            berry['price'] for berry in CakeBerrySerializer(berries, many=True).data
+        ]
+
+        components = {
+            'levels': level_prices,
+            'shapes': shape_prices,
+            'toppings': topping_prices,
+            'decors': decor_prices,
+            'berries': berry_prices,
+        }
+
+        return Response(components)
