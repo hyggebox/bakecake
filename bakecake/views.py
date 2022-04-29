@@ -117,7 +117,7 @@ def cake_api(request):
             email=order_data['Email'],
             username=order_data['Name'],
         )
-        print(password)
+
         message = f'Ваш пароль {password}'
         EmailMessage(
             subject='Пароль',
