@@ -89,7 +89,7 @@ Vue.createApp({
             },
             DATA: {
                 Levels: ['не выбрано', '1', '2', '3', '4'],
-                // Levels: [],
+                // Levels: ['не выбрано'],
                 Forms: ['не выбрано', 'Круг', 'Квадрат', 'Прямоугольник'],
                 Toppings: ['не выбрано', 'Без', 'Белый соус', 'Карамельный', 'Кленовый', 'Черничный', 'Молочный шоколад', 'Клубничный'],
                 Berries: ['нет', 'Ежевика', 'Малина', 'Голубика', 'Клубника'],
@@ -126,7 +126,6 @@ Vue.createApp({
         ToStep4() {
             this.Designed = true
             setTimeout(() => this.$refs.ToStep4.click(), 0);
-
         },
         SubmitOrder() {
             //Тут выведен в консоль объект, описывающий заказ полностью. Сработает только после прохождения валидации 2ой формы:
@@ -147,8 +146,7 @@ Vue.createApp({
                 Time: this.Time,
                 DelivComments: this.DelivComments,
             }, null ,2))
-            
-            alert('Do you want some POST?')
+
             axios.post('http://127.0.0.1:8000/api/cake', JSON.stringify({
                 Cost: this.Cost,
                 Levels: this.DATA.Levels[this.Levels],
@@ -192,9 +190,12 @@ Vue.createApp({
             // .then(console.log(this))
             // .then(this.DATA["Levels"] = ['не выбрано', '1', '2', '3', '4'])
             .then(response => {
-                this.DATA["Levels"] = ['не выбрано', '1', '2', '3']
-                this.Costs["Levels"] = [0, 400, 750, 1100]
-                console.log(response.data)
+                console.log(response.data.levels)
+                // this.DATA["Levels"] = this.DATA["Levels"].concat(response.data.levels)
+                // console.log(this.DATA["Levels"])
+                // this.DATA["Levels"] = ['не выбрано', '1', '2', '3']
+                // this.Costs["Levels"] = [0, 400, 750, 1100]
+                // console.log(response.data)
                 // console.log(this.DATA['Levels'])
             })
     }
