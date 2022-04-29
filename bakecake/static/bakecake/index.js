@@ -88,17 +88,19 @@ Vue.createApp({
                 }
             },
             DATA: {
-                Levels: ['не выбрано', '1', '2', '3', '4'],
-                // Levels: [],
+                // Levels: ['не выбрано', '1', '2', '3', '4'],
+                Levels: ['не выбрано'],
                 Forms: ['не выбрано', 'Круг', 'Квадрат', 'Прямоугольник'],
+                // Forms: ['не выбрано'],
                 Toppings: ['не выбрано', 'Без', 'Белый соус', 'Карамельный', 'Кленовый', 'Черничный', 'Молочный шоколад', 'Клубничный'],
                 Berries: ['нет', 'Ежевика', 'Малина', 'Голубика', 'Клубника'],
                 Decors: [ 'нет', 'Фисташки', 'Безе', 'Фундук', 'Пекан', 'Маршмеллоу', 'Марципан']
             },
             Costs: {
-                Levels: [0, 400, 750, 1100, 15000],
-                // Levels: [],
+                // Levels: [0, 400, 750, 1100, 15000],
+                Levels: [0],
                 Forms: [0, 600, 400, 1000],
+                // Forms: [0],
                 Toppings: [0, 0, 200, 180, 200, 300, 350, 200],
                 Berries: [0, 400, 300, 450, 500],
                 Decors: [0, 300, 400, 350, 300, 200, 280],
@@ -126,7 +128,6 @@ Vue.createApp({
         ToStep4() {
             this.Designed = true
             setTimeout(() => this.$refs.ToStep4.click(), 0);
-
         },
         SubmitOrder() {
             //Тут выведен в консоль объект, описывающий заказ полностью. Сработает только после прохождения валидации 2ой формы:
@@ -147,8 +148,7 @@ Vue.createApp({
                 Time: this.Time,
                 DelivComments: this.DelivComments,
             }, null ,2))
-            
-            alert('Do you want some POST?')
+
             axios.post('http://127.0.0.1:8000/api/cake', {
                 Cost: this.Cost,
                 Levels: this.DATA.Levels[this.Levels],
@@ -177,25 +177,11 @@ Vue.createApp({
         }
     },
     mounted() {
-        console.log('start!')
         axios
             .get('http://127.0.0.1:8000/api/cake')
-            // .then(function(response){
-            //     console.log(this)
-            //     return response
-            // })
-            // .then(function(response){
-            //     this.DATA["Levels"] = ['не выбрано', '1', '2', '3', '4']
-            //     this.Costs["Levels"] = [0, 400, 750, 1100, 15000]
-            //     return response
-            // })
-            // .then(console.log(this))
-            // .then(this.DATA["Levels"] = ['не выбрано', '1', '2', '3', '4'])
             .then(response => {
-                this.DATA["Levels"] = ['не выбрано', '1', '2', '3']
-                this.Costs["Levels"] = [0, 400, 750, 1100]
-                console.log(response.data)
-                // console.log(this.DATA['Levels'])
+                this.DATA["Levels"] = this.DATA["Levels"].concat(response.data.levels_names)
+                this.Costs["Levels"] = this.Costs["Levels"].concat(response.data.levels_prices)
             })
     }
 }).mount('#VueApp')

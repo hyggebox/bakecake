@@ -218,7 +218,6 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         verbose_name_plural = '_ПОЛЬЗОВАТЕЛИ'
 
 
-
 class Order(models.Model):
     STATUS = (
         ('n', 'Неоплачен'),
