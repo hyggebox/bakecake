@@ -57,7 +57,7 @@ def render_index_page(request):
 @login_required(login_url='/auth/login/')
 def render_lk_page(request):
     template = 'lk.html'
-    # template = 'lk-order.html'
+
     return render(request, template)
 
 
@@ -102,65 +102,62 @@ def cake_api(request):
         phone = order_data['Phone']
         password = generate_password()
 
-        if CustomUser.objects.get(phonenumber=phone):
+        try:
             customer = CustomUser.objects.get(phonenumber=phone)
+
+        except CustomUser.DoesNotExist:
+            customer = CustomUser.objects.create_user(
+                password=password,
+                phonenumber=phone,
+                email=order_data['Email'],
+                username=order_data['Name'],
+            )
+
+            message = f'Ваш пароль: {password}'
+            EmailMessage(
+                subject=message,
+                body=message,
+                to=[order_data['Email']],
+            ).send()
+
+        finally:
+            print('create cake')
             cake = create_cake(order_data)
             customer_id = customer.pk
             cake_id = cake.pk
             create_order(order_data, customer_id, cake_id)
 
-            return Response(23)
-
-        customer = CustomUser.objects.create_user(
-            password=password,
-            phonenumber=phone,
-            email=order_data['Email'],
-            username=order_data['Name'],
-        )
-
-        message = f'Ваш пароль {password}'
-        EmailMessage(
-            subject='Пароль',
-            body=message,
-            to=[order_data['email']],
-        ).send()
-
-        cake = create_cake(order_data)
-        customer_id = customer.pk
-        cake_id = cake.pk
-        create_order(order_data, customer_id, cake_id)
-
         return Response(23)
 
-    if request.method == 'GET':
-        levels = CakeLevel.objects.all()
-        shapes = CakeShape.objects.all()
-        toppings = CakeTopping.objects.all()
-        decors = CakeDecor.objects.all()
-        berries = CakeBerry.objects.all()
-
-        level_prices = [
-            level['price'] for level in CakeLevelSerializer(levels, many=True).data
-        ]
-        shape_prices = [
-            shape['price'] for shape in CakeShapeSerializer(shapes, many=True).data
-        ]
-        topping_prices = [
-            topping['price'] for topping in CakeToppingSerializer(toppings, many=True).data
-        ]
-        decor_prices = [
-            decor['price'] for decor in CakeDecorSerializer(decors, many=True).data
-        ]
-        berry_prices = [
-            berry['price'] for berry in CakeBerrySerializer(berries, many=True).data
-        ]
-
-        components = {
-            'levels': level_prices,
-            'shapes': shape_prices,
-            'toppings': topping_prices,
-            'decors': decor_prices,
-            'berries': berry_prices,
-        }
-
-        return Response(components)
+    # if request.method == 'GET':
+    #     levels = CakeLevel.objects.all()
+    #     shapes = CakeShape.objects.all()
+    #     toppings = CakeTopping.objects.all()
+    #     decors = CakeDecor.objects.all()
+    #     berries = CakeBerry.objects.all()
+    #
+    #     level_prices = [
+    #         level['price'] for level in CakeLevelSerializer(levels, many=True).data
+    #     ]
+    #     shape_prices = [
+    #         shape['price'] for shape in CakeShapeSerializer(shapes, many=True).data
+    #     ]
+    #     topping_prices = [
+    #         topping['price'] for topping in CakeToppingSerializer(toppings, many=True).data
+    #     ]
+    #     decor_prices = [
+    #         decor['price'] for decor in CakeDecorSerializer(decors, many=True).data
+    #     ]
+    #     berry_prices = [
+    #         berry['price'] for berry in CakeBerrySerializer(berries, many=True).data
+    #     ]
+    #
+    #     components = {
+    #         'levels': level_prices,
+    #         'shapes': shape_prices,
+    #         'toppings': topping_prices,
+    #         'decors': decor_prices,
+    #         'berries': berry_prices,
+    #     }
+    #
+    #     return Response(components)
