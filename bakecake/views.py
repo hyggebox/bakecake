@@ -90,6 +90,7 @@ def cake_api(request):
         delivery_comments = order_data['DelivComments']
 
         customer = CustomUser.objects.get_or_create(
+            password=generate_password(),
             phonenumber=phone,
             email=email,
             username=name,
