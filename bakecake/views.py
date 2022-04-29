@@ -21,6 +21,32 @@ def generate_password():
     return password
 
 
+def create_cake(order_data):
+    cake = Cake.objects.create(
+        level_count=CakeLevel.objects.get(level_count=order_data['Levels']),
+        shape=CakeShape.objects.get(shape=order_data['Form']),
+        topping=CakeTopping.objects.get(cake_topping=order_data['Topping']),
+        berry=CakeBerry.objects.get(cake_berry=order_data['Berries']),
+        decor=CakeDecor.objects.get(cake_decor=order_data['Decor']),
+        inscription=order_data['Words'],
+        comment=order_data['Comments']
+    )
+
+    return cake
+
+
+def create_order(order_data, customer_id, cake_id):
+    order = Order.objects.create(
+        customer=CustomUser.objects.get(pk=customer_id),
+        cake=Cake.objects.get(pk=cake_id),
+        status='n',
+        delivery_date=f'{order_data["Dates"]} {order_data["Time"]}',
+        price=order_data['Cost'],
+        deliver_address=order_data['Address'],
+        delivery_comments=order_data['DelivComments']
+    )
+
+
 def render_index_page(request):
     levels_query_set = CakeLevel.objects.values_list('level_count')
     levels = [level[0] for level in levels_query_set]
@@ -73,59 +99,36 @@ def cake_api(request):
 
         order_data = request.data
 
-        price = order_data['Cost']
-        levels = order_data['Levels']
-        form = order_data['Form']
-        topping = order_data['Topping']
-        berry = order_data['Berries']
-        decor = order_data['Decor']
-        inscription = order_data['Words']
-        comments = order_data['Comments']
-        name = order_data['Name']
         phone = order_data['Phone']
-        email = order_data['Email']
-        address = order_data['Address']
-        date = order_data['Dates']
-        time = order_data['Time']
-        delivery_comments = order_data['DelivComments']
-
         password = generate_password()
 
-        customer = CustomUser.objects.get_or_create(
+        if CustomUser.objects.get(phonenumber=phone):
+            customer = CustomUser.objects.get(phonenumber=phone)
+            cake = create_cake(order_data)
+            customer_id = customer.pk
+            cake_id = cake.pk
+            create_order(order_data, customer_id, cake_id)
+
+            return Response(23)
+
+        customer = CustomUser.objects.create_user(
             password=password,
             phonenumber=phone,
-            email=email,
-            username=name,
+            email=order_data['Email'],
+            username=order_data['Name'],
         )
+        print(password)
         message = f'Ваш пароль {password}'
         EmailMessage(
             subject='Пароль',
             body=message,
-            to=[email]
+            to=[order_data['email']],
         ).send()
 
-        cake = Cake.objects.create(
-            level_count=CakeLevel.objects.get(level_count=levels),
-            shape=CakeShape.objects.get(shape=form),
-            topping=CakeTopping.objects.get(cake_topping=topping),
-            berry=CakeBerry.objects.get(cake_berry=berry),
-            decor=CakeDecor.objects.get(cake_decor=decor),
-            inscription=inscription,
-            comment=comments
-        )
-
-        customer_id = customer[0].pk
+        cake = create_cake(order_data)
+        customer_id = customer.pk
         cake_id = cake.pk
-
-        order = Order.objects.create(
-            customer=CustomUser.objects.get(pk=customer_id),
-            cake=Cake.objects.get(pk=cake_id),
-            status='n',
-            delivery_date=f'{date} {time}',
-            price=price,
-            deliver_address=address,
-            delivery_comments=delivery_comments
-        )
+        create_order(order_data, customer_id, cake_id)
 
         return Response(23)
 
