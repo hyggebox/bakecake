@@ -1,14 +1,22 @@
+import string
+
 from django.http import HttpResponse
 from django.shortcuts import render
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.serializers import ModelSerializer
 from django.contrib.auth.decorators import login_required
+from django.utils.crypto import get_random_string
 
 from cakes.models import (CakeLevel, CakeShape, CakeTopping,
                           CakeDecor, CakeBerry)
 
 
+def generate_password():
+    psw_length = 8
+    allowed_chars = string.ascii_lowercase+string.ascii_uppercase + string.digits
+    password = get_random_string(psw_length, allowed_chars=allowed_chars)
+    return password
 
 
 def render_index_page(request):

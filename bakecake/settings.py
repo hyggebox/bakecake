@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/4.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
-import django_heroku
+# import django_heroku
 
 from environs import Env
 from pathlib import Path
@@ -23,8 +23,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = env.str('SECRET_KEY')
 DEBUG = env.bool('DEBUG', default=False)
-ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default='')
-
+# ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default='')
+ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
@@ -144,4 +144,4 @@ LOGOUT_REDIRECT_URL = '/'
 AUTH_USER_MODEL = 'cakes.CustomUser'
 
 
-django_heroku.settings(locals())
+# django_heroku.settings(locals())
