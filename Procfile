@@ -1,1 +1,1 @@
-web:  foodplan.wsgi
+web: bakecake.wsgi
