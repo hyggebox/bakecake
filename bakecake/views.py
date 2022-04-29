@@ -1,6 +1,5 @@
 import string
 
-
 from django.db import transaction
 from django.core.mail import EmailMessage
 
@@ -19,8 +18,8 @@ from cakes.models import (Cake, CustomUser, Order,
 
 
 def generate_password():
-    psw_length = 8
-    allowed_chars = string.ascii_lowercase+string.ascii_uppercase + string.digits
+    psw_length = 5
+    allowed_chars = string.ascii_lowercase + string.digits
     password = get_random_string(psw_length, allowed_chars=allowed_chars)
     return password
 
@@ -69,9 +68,41 @@ def render_lk_page(request):
     return render(request, template)
 
 
+@transaction.atomic
 @api_view(['GET', 'POST'])
 def cake_api(request):
     if request.method == 'POST':
+
+        order_data = request.data
+
+        phone = order_data['Phone']
+        password = generate_password()
+
+        try:
+            customer = CustomUser.objects.get(phonenumber=phone)
+
+        except CustomUser.DoesNotExist:
+            customer = CustomUser.objects.create_user(
+                password=password,
+                phonenumber=phone,
+                email=order_data['Email'],
+                username=order_data['Name'],
+            )
+
+            message = f'Ваш пароль: {password}'
+            EmailMessage(
+                subject=message,
+                body=message,
+                to=[order_data['Email']],
+            ).send()
+
+        finally:
+            print('create cake')
+            cake = create_cake(order_data)
+            customer_id = customer.pk
+            cake_id = cake.pk
+            create_order(order_data, customer_id, cake_id)
+
         return Response(23)
 
     if request.method == 'GET':
@@ -107,49 +138,8 @@ def cake_api(request):
 
             'decors_names': decors_names,
             'decors_prices': decors_prices,
-
-
-@transaction.atomic
-@api_view(['GET', 'POST'])
-def cake_api(request):
-
-    if request.method == 'POST':
-
-        order_data = request.data
-
-        phone = order_data['Phone']
-        password = generate_password()
-
-        try:
-            customer = CustomUser.objects.get(phonenumber=phone)
-
-        except CustomUser.DoesNotExist:
-            customer = CustomUser.objects.create_user(
-                password=password,
-                phonenumber=phone,
-                email=order_data['Email'],
-                username=order_data['Name'],
-            )
-
-            message = f'Ваш пароль: {password}'
-            EmailMessage(
-                subject=message,
-                body=message,
-                to=[order_data['Email']],
-            ).send()
-
-        finally:
-            print('create cake')
-            cake = create_cake(order_data)
-            customer_id = customer.pk
-            cake_id = cake.pk
-            create_order(order_data, customer_id, cake_id)
-
-        return Response(23)
-
             'berries_names': berries_names,
             'berries_prices': berries_prices
         }
 
         return Response(cake_data)
-
