@@ -184,6 +184,8 @@ Vue.createApp({
                 Time: this.Time,
                 DelivComments: this.DelivComments,
             }, {headers: {"X-CSRFToken": csrftoken}});
+
+            window.location.replace("/success");
         }
     },
     computed: {

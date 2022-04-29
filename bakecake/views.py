@@ -160,3 +160,7 @@ def cake_api(request):
         }
 
         return Response(cake_data)
+
+
+def success_page(request):
+    return render(request, 'success.html')
