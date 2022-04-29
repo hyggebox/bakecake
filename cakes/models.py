@@ -192,7 +192,6 @@ class Customer(models.Model):
         return f'{self.firstname} {self.lastname}'
 
 
-
 class CustomUserManager(BaseUserManager):
 
     def create_user(self, phonenumber, email, username, password,
