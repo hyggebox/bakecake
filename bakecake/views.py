@@ -118,8 +118,6 @@ def cake_api(request):
             delivery_comments=delivery_comments
         )
 
-        print(order)
-
         return Response(23)
 
     if request.method == 'GET':
