@@ -196,6 +196,7 @@
 
 			<section class="row pt-header" id="step4" v-if="Designed">
 				<v-form :validation-schema="schema2" @submit="SubmitOrder" method="post" action="http://127.0.0.1:8000/api/cake">
+                    {% csrf_token %} 
 					<div class="col">
 						<div class="d-flex flex-column position-relative pb-5">
 							<h2 class="fs_40 font_Gogh cake_blue text-center align-self-center">Оформление заказа</h2>

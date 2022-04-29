@@ -9,6 +9,7 @@ from django.utils.crypto import get_random_string
 from django.shortcuts import render
 
 from rest_framework.decorators import api_view
+from django.views.decorators.csrf import csrf_exempt
 from rest_framework.response import Response
 
 from cakes.models import (Cake, CustomUser, Order,
@@ -83,7 +84,7 @@ def render_lk_page(request):
     return render(request, template)
 
 
-@transaction.atomic
+# @transaction.atomic
 @api_view(['GET', 'POST'])
 def cake_api(request):
     if request.method == 'POST':
