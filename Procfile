@@ -1,1 +1,1 @@
-web: bakecake.wsgi
+web: gunicorn bakecake.wsgi
