@@ -16,7 +16,6 @@ from cakes.models import (Cake, CustomUser, Order,
                           CakeDecor, CakeBerry)
 
 
-
 def generate_password():
     psw_length = 5
     allowed_chars = string.ascii_lowercase + string.digits
@@ -54,8 +53,24 @@ def render_index_page(request):
     levels_query_set = CakeLevel.objects.values_list('level_count')
     levels_names = [level[0] for level in levels_query_set]
 
+    shapes_query_set = CakeShape.objects.values_list('shape')
+    shapes_names = [shape[0] for shape in shapes_query_set]
+
+    toppings_query_set = CakeTopping.objects.values_list('cake_topping')
+    toppings_names = [topping[0] for topping in toppings_query_set]
+
+    decors_query_set = CakeDecor.objects.values_list('cake_decor')
+    decors_names = [decor[0] for decor in decors_query_set]
+
+    berries_query_set = CakeBerry.objects.values_list('cake_berry')
+    berries_names = [berry[0] for berry in berries_query_set]
+
     context = {
-        'levels_names': levels_names
+        'levels_names': levels_names,
+        'shapes_names': shapes_names,
+        'toppings_names': toppings_names,
+        'decors_names': decors_names,
+        'berries_names': berries_names
     }
 
     return render(request, 'index.html', context=context)
@@ -138,6 +153,7 @@ def cake_api(request):
 
             'decors_names': decors_names,
             'decors_prices': decors_prices,
+            
             'berries_names': berries_names,
             'berries_prices': berries_prices
         }
