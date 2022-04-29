@@ -88,23 +88,19 @@ Vue.createApp({
                 }
             },
             DATA: {
-                // Levels: ['не выбрано', '1', '2', '3', '4'],
                 Levels: ['не выбрано'],
-                Forms: ['не выбрано', 'Круг', 'Квадрат', 'Прямоугольник'],
-                // Forms: ['не выбрано'],
-                Toppings: ['не выбрано', 'Без', 'Белый соус', 'Карамельный', 'Кленовый', 'Черничный', 'Молочный шоколад', 'Клубничный'],
-                Berries: ['нет', 'Ежевика', 'Малина', 'Голубика', 'Клубника'],
-                Decors: [ 'нет', 'Фисташки', 'Безе', 'Фундук', 'Пекан', 'Маршмеллоу', 'Марципан']
+                Forms: ['не выбрано'],
+                Toppings: ['не выбрано', 'Без'],
+                Berries: ['нет'],
+                Decors: [ 'нет']
             },
             Costs: {
-                // Levels: [0, 400, 750, 1100, 15000],
                 Levels: [0],
-                Forms: [0, 600, 400, 1000],
-                // Forms: [0],
-                Toppings: [0, 0, 200, 180, 200, 300, 350, 200],
-                Berries: [0, 400, 300, 450, 500],
-                Decors: [0, 300, 400, 350, 300, 200, 280],
-                Words: 500
+                Forms: [0],
+                Toppings: [0, 0],
+                Berries: [0],
+                Decors: [0],
+                Words: 0
             },
             Levels: 0,
             Form: 0,
@@ -182,6 +178,14 @@ Vue.createApp({
             .then(response => {
                 this.DATA["Levels"] = this.DATA["Levels"].concat(response.data.levels_names)
                 this.Costs["Levels"] = this.Costs["Levels"].concat(response.data.levels_prices)
+                this.DATA["Forms"] = this.DATA["Forms"].concat(response.data.shapes_names)
+                this.Costs["Forms"] = this.Costs["Forms"].concat(response.data.shapes_prices)
+                this.DATA["Toppings"] = this.DATA["Toppings"].concat(response.data.toppings_names)
+                this.Costs["Toppings"] = this.Costs["Toppings"].concat(response.data.toppings_prices)
+                this.DATA["Berries"] = this.DATA["Berries"].concat(response.data.berries_names)
+                this.Costs["Berries"] = this.Costs["Berries"].concat(response.data.berries_prices)
+                this.DATA["Decors"] = this.DATA["Decors"].concat(response.data.decors_names)
+                this.Costs["Decors"] = this.Costs["Decors"].concat(response.data.decors_prices)
             })
     }
 }).mount('#VueApp')
