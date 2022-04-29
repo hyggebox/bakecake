@@ -90,14 +90,14 @@ Vue.createApp({
             DATA: {
                 Levels: ['не выбрано'],
                 Forms: ['не выбрано'],
-                Toppings: ['не выбрано', 'Без'],
+                Toppings: ['не выбрано'],
                 Berries: ['нет'],
                 Decors: [ 'нет']
             },
             Costs: {
                 Levels: [0],
                 Forms: [0],
-                Toppings: [0, 0],
+                Toppings: [0],
                 Berries: [0],
                 Decors: [0],
                 Words: 0

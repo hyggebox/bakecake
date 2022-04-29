@@ -151,11 +151,9 @@
 
 					<div class="d-flex align-items-center flex-wrap mb-3">
 						<span class="me-3 fs_40 cake_blue">Топпинг</span>
-                        <v-field v-model="Topping" type="radio" name="topping" id="topping1" value="1" class="d-none cake__input"></v-field>
-						<label for="topping1" class="mx-2 px-3 py-1 cake_grey cake__label">Без</label>
                         {% for topping in toppings_names %}
-                        <v-field v-model="Topping" type="radio" name="topping" id="topping{{ forloop.counter|add:"1"}}" value="{{ forloop.counter|add:"1"}}" class="d-none cake__input"></v-field>
-						<label for="topping{{ forloop.counter|add:"1"}}" class="mx-2 px-3 py-1 cake_grey cake__label">{{ topping }}</label>
+                        <v-field v-model="Topping" type="radio" name="topping" id="topping{{ forloop.counter}}" value="{{ forloop.counter}}" class="d-none cake__input"></v-field>
+						<label for="topping{{ forloop.counter}}" class="mx-2 px-3 py-1 cake_grey cake__label">{{ topping }}</label>
                         {% endfor %}
 					</div>
 
