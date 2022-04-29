@@ -165,7 +165,7 @@ Vue.createApp({
                 Dates: this.Dates,
                 Time: this.Time,
                 DelivComments: this.DelivComments,
-            }, null ,2)
+            });
         }
     },
     computed: {
