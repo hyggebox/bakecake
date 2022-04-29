@@ -252,6 +252,8 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 class Order(models.Model):
     STATUS = (
         ('n', 'Новый'),
+        ('unpay', 'Неоплачен'),
+        ('pay', 'Оплачен'),
         ('a', 'Принят'),
         ('p', 'Готовится'),
         ('d', 'Передан в доставку'),
@@ -274,7 +276,7 @@ class Order(models.Model):
         max_length=20,
         verbose_name='Статус заказа',
         choices=STATUS,
-        default='s'
+        default='n'
     )
     registered_at = models.DateTimeField(
         'Время регистрации заказа',
