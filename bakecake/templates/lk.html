@@ -88,7 +88,7 @@
                     <span class="cake_pink">Цена: {{ order.price }}₽</span>
                   </div>
                   <div class="modal-footer d-flex justify-content-between">
-                    <span class="cake_blue d-flex align-items-center">Время доставки: {{ order.deliver_date }}</span>
+                    <span class="cake_blue d-flex align-items-center">Время доставки: {{ order.delivery_date }}</span>
                     <span class="cake_blue d-flex align-items-center">Адрес: {{ order.deliver_address }}</span>
 
                     <span class="cake_blue d-flex">Статус: <span class="cake_pink mx-1"> {{ order.get_status_display }}</span></span>
@@ -107,13 +107,6 @@
         <span class="cake_grey">Воспользуйтесь нашим <a href="https://vk.com/devmanorg" class="text-decoration-none cake_pink">чат-ботом</a>.</span>
 
       {% endif %}
-
-
-
-
-
-
-
 
 			<a class="btn text-white rounded-pill align-self-end px-5 mt-3 shadow-none cake__button cake__bg_pink" href="{% url 'logout' %}">Выйти</a>
 		</div>
