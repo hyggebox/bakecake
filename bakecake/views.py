@@ -1,7 +1,7 @@
 import string
 
 from django.db import transaction
-from django.http import HttpResponse
+from django.core.mail import EmailMessage
 from django.shortcuts import render
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -89,12 +89,20 @@ def cake_api(request):
         time = order_data['Time']
         delivery_comments = order_data['DelivComments']
 
+        password = generate_password()
+
         customer = CustomUser.objects.get_or_create(
-            password=generate_password(),
+            password=password,
             phonenumber=phone,
             email=email,
             username=name,
         )
+        message = f'Ваш пароль {password}'
+        EmailMessage(
+            subject='Пароль',
+            body=message,
+            to=[email]
+        ).send()
 
         cake = Cake.objects.create(
             level_count=CakeLevel.objects.get(level_count=levels),
