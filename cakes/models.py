@@ -162,36 +162,6 @@ class Cake(models.Model):
         return f'Торт {self.level_count} уровневый - форма {self.shape}'
 
 
-class Customer(models.Model):
-    firstname = models.CharField(
-        'Имя',
-        max_length=50,
-        null=False
-    )
-    lastname = models.CharField(
-        'Фамилия',
-        max_length=50,
-        null=False
-    )
-    phonenumber = PhoneNumberField(
-        verbose_name='Телефонный номер'
-    )
-    email = models.EmailField(
-        verbose_name='Email заказчика'
-    )
-    address = models.CharField(
-        max_length=150,
-        verbose_name='Адрес заказчика'
-    )
-
-    class Meta:
-        verbose_name = 'Клиент'
-        verbose_name_plural = 'Клиенты'
-
-    def __str__(self):
-        return f'{self.firstname} {self.lastname}'
-
-
 class CustomUserManager(BaseUserManager):
 
     def create_user(self, phonenumber, email, username, password,
@@ -251,8 +221,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 
 class Order(models.Model):
     STATUS = (
-        ('n', 'Новый'),
-        ('unpay', 'Неоплачен'),
+        ('n', 'Неоплачен'),
         ('pay', 'Оплачен'),
         ('a', 'Принят'),
         ('p', 'Готовится'),
@@ -303,12 +272,17 @@ class Order(models.Model):
         max_length=200,
         blank=True,
     )
-    deliver_date = models.DateTimeField(
+    delivery_date = models.DateTimeField(
         'Доставить к',
         blank=True,
         null=True,
         db_index=True
     )
+    delivery_comments = models.TextField(
+        verbose_name='Комментарий для курьера',
+        blank=True
+    )
+
 
     class Meta:
         verbose_name = 'Заказ'

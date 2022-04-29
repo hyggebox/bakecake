@@ -149,7 +149,7 @@ Vue.createApp({
             }, null ,2))
             
             alert('Do you want some POST?')
-            axios.post('http://127.0.0.1:8000/api/cake', JSON.stringify({
+            axios.post('http://127.0.0.1:8000/api/cake', {
                 Cost: this.Cost,
                 Levels: this.DATA.Levels[this.Levels],
                 Form: this.DATA.Forms[this.Form],
@@ -165,7 +165,7 @@ Vue.createApp({
                 Dates: this.Dates,
                 Time: this.Time,
                 DelivComments: this.DelivComments,
-            }, null ,2))
+            }, null ,2)
         }
     },
     computed: {
