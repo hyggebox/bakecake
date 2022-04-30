@@ -49,6 +49,8 @@ def create_order(order_data, customer_id, cake_id):
         delivery_comments=order_data['DelivComments']
     )
 
+    return order.id
+
 
 def render_index_page(request):
     levels_query_set = CakeLevel.objects.values_list('level_count')
@@ -84,8 +86,8 @@ def render_lk_page(request):
     return render(request, template)
 
 
-# @transaction.atomic
-@api_view(['GET', 'POST'])
+@transaction.atomic
+@api_view(['GET', 'POST', 'PUT'])
 def cake_api(request):
     if request.method == 'POST':
 
@@ -96,7 +98,6 @@ def cake_api(request):
 
         try:
             customer = CustomUser.objects.get(phonenumber=phone)
-
         except CustomUser.DoesNotExist:
             customer = CustomUser.objects.create_user(
                 password=password,
@@ -117,9 +118,9 @@ def cake_api(request):
             cake = create_cake(order_data)
             customer_id = customer.pk
             cake_id = cake.pk
-            create_order(order_data, customer_id, cake_id)
+            order_id = create_order(order_data, customer_id, cake_id)
 
-        return Response(23)
+        return Response(order_id)
 
     if request.method == 'GET':
       
@@ -161,6 +162,13 @@ def cake_api(request):
         }
 
         return Response(cake_data)
+
+    if request.method == 'PUT':
+        order = Order.objects.get(id=request.data['orderId'])
+        order.status = 'pay'
+        order.save()
+
+        return Response('OK')
 
 
 def success_page(request):
