@@ -197,6 +197,7 @@ Vue.createApp({
                         },
                         onComplete: function (paymentResult, options) { //Вызывается как только виджет получает от api.cloudpayments ответ с результатом транзакции.
                             //например вызов вашей аналитики Facebook Pixel
+                            window.location.replace("/success");
                         }
                     }
 
@@ -229,8 +230,7 @@ Vue.createApp({
                 .then(response =>{
                     payCake(response.data, csrftoken)
                 });
-                
-            window.location.replace("/success");
+
         }
     },
     computed: {
