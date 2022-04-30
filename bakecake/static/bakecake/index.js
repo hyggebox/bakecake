@@ -187,7 +187,7 @@ Vue.createApp({
                         onSuccess: function(options) {
                             axios
                                 .put(
-                                    'http://127.0.0.1:8000/api/cake',
+                                    '/api/cake',
                                     {orderId: orderId},
                                     {headers: {"X-CSRFToken": csrftoken}}
                                 )
@@ -210,7 +210,7 @@ Vue.createApp({
             const csrftoken = getCookie('csrftoken');
 
             axios
-                .post('http://127.0.0.1:8000/api/cake', {
+                .post('/api/cake', {
                     Cost: this.Cost,
                     Levels: this.DATA.Levels[this.Levels],
                     Form: this.DATA.Forms[this.Form],
