@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'cakes',
     'rest_framework',
     'widget_tweaks',
+    'analytical',
 ]
 
 MIDDLEWARE = [
@@ -151,5 +152,6 @@ DEFAULT_FROM_EMAIL = env.str('DEFAULT_FROM_EMAIL')
 EMAIL_PORT = env.int('EMAIL_PORT', 25)
 EMAIL_USE_TLS = env.bool('EMAIL_PORT', True)
 
+YANDEX_METRICA_COUNTER_ID = '88669607'
 
 django_heroku.settings(locals())
