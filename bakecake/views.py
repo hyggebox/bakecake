@@ -105,10 +105,15 @@ def cake_api(request):
                 username=order_data['Name'],
             )
 
-            message = f'Ваш пароль: {password}'
+            subject_message = f'Ваш пароль: {password}'
+            body_message = f'Вы сделали заказ на сайте CakeBake.\n\n' \
+                           f'Ваш логин: {phone}\n' \
+                           f'Пароль: {password}'
+
+
             EmailMessage(
-                subject=message,
-                body=message,
+                subject=subject_message,
+                body=body_message,
                 to=[order_data['Email']],
             ).send()
 
