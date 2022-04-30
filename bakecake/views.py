@@ -122,6 +122,7 @@ def cake_api(request):
         return Response(23)
 
     if request.method == 'GET':
+      
         levels_query_set = CakeLevel.objects.values_list('level_count', 'price')
         levels_names = [level[0] for level in levels_query_set]
         levels_prices = [level[1] for level in levels_query_set]
@@ -164,3 +165,4 @@ def cake_api(request):
 
 def success_page(request):
     return render(request, 'success.html')
+
