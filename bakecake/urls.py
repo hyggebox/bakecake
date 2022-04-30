@@ -2,9 +2,10 @@ from django.contrib import admin
 from django.urls import path, include
 
 from cakes import views
-from .views import render_index_page, success_page
+from .views import render_index_page
 from .views import render_lk_page
 from .views import cake_api
+from .views import success_page, fail_page
 
 
 urlpatterns = [
@@ -16,4 +17,5 @@ urlpatterns = [
     path('signup/', views.SignUp.as_view(), name='signup'),
     path('auth/', include('django.contrib.auth.urls')),
     path('success', success_page),
+    path('fail', fail_page),
 ]

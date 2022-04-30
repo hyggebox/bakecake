@@ -179,3 +179,7 @@ def cake_api(request):
 def success_page(request):
     return render(request, 'success.html')
 
+
+def fail_page(request):
+    return render(request, 'fail.html')
+

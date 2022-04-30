@@ -172,7 +172,7 @@ Vue.createApp({
                 widget.pay('auth',
                     {
                         publicId: 'test_api_00000000000000000000001', //id из личного кабинета
-                        description: 'Оплата товаров в example.com', //назначение
+                        description: 'Оплата товаров в super-cake.herokuapp.com', //назначение
                         amount: pay_sum, //сумма
                         currency: 'RUB', //валюта
                         accountId: 'user@example.com', //идентификатор плательщика (необязательно)
@@ -194,6 +194,7 @@ Vue.createApp({
                         },
                         onFail: function (reason, options) { // fail
                             //действие при неуспешной оплате
+                            window.location.replace("/fail");
                         },
                         onComplete: function (paymentResult, options) { //Вызывается как только виджет получает от api.cloudpayments ответ с результатом транзакции.
                             //например вызов вашей аналитики Facebook Pixel
