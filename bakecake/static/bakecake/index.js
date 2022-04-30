@@ -88,21 +88,19 @@ Vue.createApp({
                 }
             },
             DATA: {
-                Levels: ['не выбрано', '1', '2', '3', '4'],
-                // Levels: [],
-                Forms: ['не выбрано', 'Круг', 'Квадрат', 'Прямоугольник'],
-                Toppings: ['не выбрано', 'Без', 'Белый соус', 'Карамельный', 'Кленовый', 'Черничный', 'Молочный шоколад', 'Клубничный'],
-                Berries: ['нет', 'Ежевика', 'Малина', 'Голубика', 'Клубника'],
-                Decors: [ 'нет', 'Фисташки', 'Безе', 'Фундук', 'Пекан', 'Маршмеллоу', 'Марципан']
+                Levels: ['не выбрано'],
+                Forms: ['не выбрано'],
+                Toppings: ['не выбрано'],
+                Berries: ['нет'],
+                Decors: [ 'нет']
             },
             Costs: {
-                Levels: [0, 400, 750, 1100, 15000],
-                // Levels: [],
-                Forms: [0, 600, 400, 1000],
-                Toppings: [0, 0, 200, 180, 200, 300, 350, 200],
-                Berries: [0, 400, 300, 450, 500],
-                Decors: [0, 300, 400, 350, 300, 200, 280],
-                Words: 500
+                Levels: [0],
+                Forms: [0],
+                Toppings: [0],
+                Berries: [0],
+                Decors: [0],
+                Words: 0
             },
             Levels: 0,
             Form: 0,
@@ -126,7 +124,6 @@ Vue.createApp({
         ToStep4() {
             this.Designed = true
             setTimeout(() => this.$refs.ToStep4.click(), 0);
-
         },
         SubmitOrder() {
             //Тут выведен в консоль объект, описывающий заказ полностью. Сработает только после прохождения валидации 2ой формы:
@@ -148,7 +145,28 @@ Vue.createApp({
                 DelivComments: this.DelivComments,
             }, null ,2))
             
-            alert('Do you want some POST?')
+            function getCookie(name) {
+                let cookieValue = null;
+            
+                if (document.cookie && document.cookie !== '') {
+                    const cookies = document.cookie.split(';');
+                    for (let i = 0; i < cookies.length; i++) {
+                        const cookie = cookies[i].trim();
+            
+                        // Does this cookie string begin with the name we want?
+                        if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+            
+                            break;
+                        }
+                    }
+                }
+            
+                return cookieValue;
+            }
+
+            const csrftoken = getCookie('csrftoken');
+
             axios.post('http://127.0.0.1:8000/api/cake', {
                 Cost: this.Cost,
                 Levels: this.DATA.Levels[this.Levels],
@@ -165,7 +183,9 @@ Vue.createApp({
                 Dates: this.Dates,
                 Time: this.Time,
                 DelivComments: this.DelivComments,
-            }, null ,2)
+            }, {headers: {"X-CSRFToken": csrftoken}});
+
+            window.location.replace("/success");
         }
     },
     computed: {
@@ -177,25 +197,19 @@ Vue.createApp({
         }
     },
     mounted() {
-        console.log('start!')
         axios
             .get('http://127.0.0.1:8000/api/cake')
-            // .then(function(response){
-            //     console.log(this)
-            //     return response
-            // })
-            // .then(function(response){
-            //     this.DATA["Levels"] = ['не выбрано', '1', '2', '3', '4']
-            //     this.Costs["Levels"] = [0, 400, 750, 1100, 15000]
-            //     return response
-            // })
-            // .then(console.log(this))
-            // .then(this.DATA["Levels"] = ['не выбрано', '1', '2', '3', '4'])
             .then(response => {
-                this.DATA["Levels"] = ['не выбрано', '1', '2', '3']
-                this.Costs["Levels"] = [0, 400, 750, 1100]
-                console.log(response.data)
-                // console.log(this.DATA['Levels'])
+                this.DATA["Levels"] = this.DATA["Levels"].concat(response.data.levels_names)
+                this.Costs["Levels"] = this.Costs["Levels"].concat(response.data.levels_prices)
+                this.DATA["Forms"] = this.DATA["Forms"].concat(response.data.shapes_names)
+                this.Costs["Forms"] = this.Costs["Forms"].concat(response.data.shapes_prices)
+                this.DATA["Toppings"] = this.DATA["Toppings"].concat(response.data.toppings_names)
+                this.Costs["Toppings"] = this.Costs["Toppings"].concat(response.data.toppings_prices)
+                this.DATA["Berries"] = this.DATA["Berries"].concat(response.data.berries_names)
+                this.Costs["Berries"] = this.Costs["Berries"].concat(response.data.berries_prices)
+                this.DATA["Decors"] = this.DATA["Decors"].concat(response.data.decors_names)
+                this.Costs["Decors"] = this.Costs["Decors"].concat(response.data.decors_prices)
             })
     }
 }).mount('#VueApp')

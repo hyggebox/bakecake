@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block title %}Это успех!{%endblock%}
+
+{% block content %}
+
+<div class="container mt-header mb-6">
+  <div class="row mt-5">
+    <div class="col-12 col-xxl-12 d-flex justify-content-center">
+      <h1 class="font_Gogh fs_40 cake_blue">Поздравляю! Торт заказан!</h1>
+    </div>
+  </div>
+  <div class="row mt-4">
+    <div class="col-12 col-xxl-12 d-flex justify-content-center">
+      <img style="width: 40%" src="https://www.bakerdays.com/media/catalog/product//5/4/542_1477576546_previewweb_0gax7nzjm11uiuoc.jpg">
+    </div>
+  </div>
+
+  <div class="row mt-1">
+    <div class="col-12 col-xxl-12 d-flex justify-content-center">
+      <a class="btn btn_hover text-white rounded-pill mt-3 px-5 shadow-none cake__button cake__bg_pink" href="{% url 'render_lk_page' %}">Личный кабинет</a>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
