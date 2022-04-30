@@ -117,7 +117,7 @@ Vue.createApp({
             Address: null,
             Dates: null,
             Time: null,
-            DelivComments: ''
+            DelivComments: '',
         }
     },
     methods: {
@@ -165,26 +165,71 @@ Vue.createApp({
                 return cookieValue;
             }
 
+            function payCake(orderId, csrftoken) {
+                var pay_sum = Number(document.getElementById('showSum').innerHTML)
+                var widget = new cp.CloudPayments();
+
+                widget.pay('auth',
+                    {
+                        publicId: 'test_api_00000000000000000000001', //id из личного кабинета
+                        description: 'Оплата товаров в example.com', //назначение
+                        amount: pay_sum, //сумма
+                        currency: 'RUB', //валюта
+                        accountId: 'user@example.com', //идентификатор плательщика (необязательно)
+                        invoiceId: '1234567', //номер заказа  (необязательно)
+                        email: 'user@example.com', //email плательщика (необязательно)
+                        skin: "mini",
+                        data: {
+                            myProp: 'myProp value'
+                        }
+                    },
+                    {
+                        onSuccess: function(options) {
+                            axios
+                                .put(
+                                    'http://127.0.0.1:8000/api/cake',
+                                    {orderId: orderId},
+                                    {headers: {"X-CSRFToken": csrftoken}}
+                                )
+                        },
+                        onFail: function (reason, options) { // fail
+                            //действие при неуспешной оплате
+                        },
+                        onComplete: function (paymentResult, options) { //Вызывается как только виджет получает от api.cloudpayments ответ с результатом транзакции.
+                            //например вызов вашей аналитики Facebook Pixel
+                        }
+                    }
+
+                )
+
+
+            }
+
             const csrftoken = getCookie('csrftoken');
 
-            axios.post('http://127.0.0.1:8000/api/cake', {
-                Cost: this.Cost,
-                Levels: this.DATA.Levels[this.Levels],
-                Form: this.DATA.Forms[this.Form],
-                Topping: this.DATA.Toppings[this.Topping],
-                Berries: this.DATA.Berries[this.Berries],
-                Decor: this.DATA.Decors[this.Decor],
-                Words: this.Words,
-                Comments: this.Comments,
-                Name: this.Name,
-                Phone: this.Phone,
-                Email: this.Email,
-                Address: this.Address,
-                Dates: this.Dates,
-                Time: this.Time,
-                DelivComments: this.DelivComments,
-            }, {headers: {"X-CSRFToken": csrftoken}});
-
+            axios
+                .post('http://127.0.0.1:8000/api/cake', {
+                    Cost: this.Cost,
+                    Levels: this.DATA.Levels[this.Levels],
+                    Form: this.DATA.Forms[this.Form],
+                    Topping: this.DATA.Toppings[this.Topping],
+                    Berries: this.DATA.Berries[this.Berries],
+                    Decor: this.DATA.Decors[this.Decor],
+                    Words: this.Words,
+                    Comments: this.Comments,
+                    Name: this.Name,
+                    Phone: this.Phone,
+                    Email: this.Email,
+                    Address: this.Address,
+                    Dates: this.Dates,
+                    Time: this.Time,
+                    DelivComments: this.DelivComments,
+                },
+                {headers: {"X-CSRFToken": csrftoken}})
+                .then(response =>{
+                    payCake(response.data, csrftoken)
+                });
+                
             window.location.replace("/success");
         }
     },
