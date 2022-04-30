@@ -244,7 +244,7 @@ Vue.createApp({
     },
     mounted() {
         axios
-            .get('http://127.0.0.1:8000/api/cake')
+            .get('/api/cake')
             .then(response => {
                 this.DATA["Levels"] = this.DATA["Levels"].concat(response.data.levels_names)
                 this.Costs["Levels"] = this.Costs["Levels"].concat(response.data.levels_prices)
