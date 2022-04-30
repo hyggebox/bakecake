@@ -6,3 +6,4 @@ django-phonenumber-field==6.1.0
 phonenumbers==8.12.47
 djangorestframework==3.13.1
 django-widget-tweaks==1.4.12
+django-analytical==3.1.0
