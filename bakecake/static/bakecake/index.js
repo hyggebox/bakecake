@@ -185,20 +185,20 @@ Vue.createApp({
                     },
                     {
                         onSuccess: function(options) {
+
+                        },
+                        onFail: function (reason, options) { // fail
+                            //действие при неуспешной оплате
+//                            window.location.replace("/fail");
+                        },
+                        onComplete: function (paymentResult, options) { //Вызывается как только виджет получает от api.cloudpayments ответ с результатом транзакции.
+                            //например вызов вашей аналитики Facebook Pixel
                             axios
                                 .put(
                                     '/api/cake',
                                     {orderId: orderId},
                                     {headers: {"X-CSRFToken": csrftoken}}
-                                )
-                        },
-                        onFail: function (reason, options) { // fail
-                            //действие при неуспешной оплате
-                            window.location.replace("/fail");
-                        },
-                        onComplete: function (paymentResult, options) { //Вызывается как только виджет получает от api.cloudpayments ответ с результатом транзакции.
-                            //например вызов вашей аналитики Facebook Pixel
-                            window.location.replace("/success");
+                                ).then(window.location.replace("/success"));
                         }
                     }
 
