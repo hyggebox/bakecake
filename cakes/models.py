@@ -136,13 +136,17 @@ class Cake(models.Model):
         CakeBerry,
         verbose_name='Ягоды',
         related_name='berries',
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        blank=True,
+        null=True
     )
     decor = models.ForeignKey(
         CakeDecor,
         verbose_name='Декор',
         related_name='decors',
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        blank=True,
+        null=True
     )
     inscription = models.CharField(
         max_length=200,
