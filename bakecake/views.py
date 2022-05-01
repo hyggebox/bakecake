@@ -53,19 +53,19 @@ def create_order(order_data, customer_id, cake_id):
 
 
 def render_index_page(request):
-    levels_query_set = CakeLevel.objects.values_list('level_count')
+    levels_query_set = CakeLevel.objects.order_by('level_count').values_list('level_count')
     levels_names = [level[0] for level in levels_query_set]
 
-    shapes_query_set = CakeShape.objects.values_list('shape')
+    shapes_query_set = CakeShape.objects.order_by('price').values_list('shape')
     shapes_names = [shape[0] for shape in shapes_query_set]
 
-    toppings_query_set = CakeTopping.objects.values_list('cake_topping')
+    toppings_query_set = CakeTopping.objects.order_by('price').values_list('cake_topping')
     toppings_names = [topping[0] for topping in toppings_query_set]
 
-    decors_query_set = CakeDecor.objects.values_list('cake_decor')
+    decors_query_set = CakeDecor.objects.order_by('price').values_list('cake_decor')
     decors_names = [decor[0] for decor in decors_query_set]
 
-    berries_query_set = CakeBerry.objects.values_list('cake_berry')
+    berries_query_set = CakeBerry.objects.order_by('price').values_list('cake_berry')
     berries_names = [berry[0] for berry in berries_query_set]
 
     context = {
@@ -129,23 +129,23 @@ def cake_api(request):
 
     if request.method == 'GET':
       
-        levels_query_set = CakeLevel.objects.values_list('level_count', 'price')
+        levels_query_set = CakeLevel.objects.order_by('level_count').values_list('level_count', 'price')
         levels_names = [level[0] for level in levels_query_set]
         levels_prices = [level[1] for level in levels_query_set]
 
-        shapes_query_set = CakeShape.objects.values_list('shape', 'price')
+        shapes_query_set = CakeShape.objects.order_by('price').values_list('shape', 'price')
         shapes_names = [shape[0] for shape in shapes_query_set]
         shapes_prices = [shape[1] for shape in shapes_query_set]
 
-        toppings_query_set = CakeTopping.objects.values_list('cake_topping', 'price')
+        toppings_query_set = CakeTopping.objects.order_by('price').values_list('cake_topping', 'price')
         toppings_names = [topping[0] for topping in toppings_query_set]
         toppings_prices = [topping[1] for topping in toppings_query_set]
 
-        decors_query_set = CakeDecor.objects.values_list('cake_decor', 'price')
+        decors_query_set = CakeDecor.objects.order_by('price').values_list('cake_decor', 'price')
         decors_names = [decor[0] for decor in decors_query_set]
         decors_prices = [decor[1] for decor in decors_query_set]
 
-        berries_query_set = CakeBerry.objects.values_list('cake_berry', 'price')
+        berries_query_set = CakeBerry.objects.order_by('price').values_list('cake_berry', 'price')
         berries_names = [berry[0] for berry in berries_query_set]
         berries_prices = [berry[1] for berry in berries_query_set]
 
