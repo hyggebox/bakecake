@@ -78,8 +78,20 @@
                     <span class="cake_blue">Уровней: {{ order.cake.level_count }}</span><br>
                     <span class="cake_blue">Форма: {{ order.cake.shape }}</span><br>
                     <span class="cake_blue">Топпинг: {{ order.cake.topping }}</span><br>
-                    <span class="cake_blue">Ягоды: {{ order.cake.berry }}</span><br>
-                    <span class="cake_blue">Декор: {{ order.cake.decor }}</span><br>
+                    <span class="cake_blue">Ягоды:
+                      {% if order.cake.berry %}
+                        {{ order.cake.berry }}
+                      {% else %}
+                        —
+                      {% endif %}
+                    </span><br>
+                    <span class="cake_blue">Декор:
+                      {% if order.cake.decor %}
+                        {{ order.cake.decor }}
+                      {% else %}
+                        —
+                      {% endif %}
+                    </span><br>
                     {% if order.cake.inscription %}
                       <span class="cake_blue">Надпись: ”{{ order.cake.inscription }}”</span><br>
                     {% else %}
