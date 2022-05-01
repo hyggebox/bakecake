@@ -29,8 +29,8 @@ def create_cake(order_data):
         level_count=CakeLevel.objects.get(level_count=order_data['Levels']),
         shape=CakeShape.objects.get(shape=order_data['Form']),
         topping=CakeTopping.objects.get(cake_topping=order_data['Topping']),
-        berry=CakeBerry.objects.get(cake_berry=order_data['Berries']),
-        decor=CakeDecor.objects.get(cake_decor=order_data['Decor']),
+        berry=CakeBerry.objects.filter(cake_berry=order_data['Berries']).first(),
+        decor=CakeDecor.objects.filter(cake_decor=order_data['Decor']).first(),
         inscription=order_data['Words'],
         comment=order_data['Comments']
     )
